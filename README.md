@@ -20,7 +20,7 @@ Ensuite, importer le projet ***pour la prémière fois*** en exécutant la comma
 ```bash
 git clone https://github.com/MaGhAnBi/projet-maths.git
 ```
-# Exporter son travail le depot git du projet:
+# Exporter son travail le depot git du projet: On le surnommera souvent 'faire un push'
 
 ```bash
 git add -A
@@ -28,8 +28,12 @@ git commit -m "UN COURT MESSAGE POUR ETIQUETTER LE TRAVAIL OU SINON A LAISSER VI
 git push
 ```
 
-# Importer l'état actuel du dépôt: (**Mettre à jour son depot local')
+# Importer l'état actuel du dépôt: (Mettre à jour son depot local surnommé 'pull')
 
 ```bash
 git pull
 ```
+
+# Remarque :
+
+Quand on essaye de faire un **push** alors qu'il y a eu des mises à jour sur le depot principal entre temps, le système vous obligera à faire un **pull** avant, afin de mettre à jour votre dépot local. 
