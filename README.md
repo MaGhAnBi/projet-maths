@@ -20,7 +20,7 @@ Ensuite, importer le projet ***pour la prémière fois*** en exécutant la comma
 ```bash
 git clone https://github.com/MaGhAnBi/projet-maths.git
 ```
-## Exporter son travail le depot git du projet: On le surnommera souvent 'faire un push'
+## Exporter son travail le depot git du projet: On dira souvent faire un 'push'
 
 ```bash
 git add -A
