@@ -36,4 +36,4 @@ git pull
 
 # Remarque :
 
-Quand on essaye de faire un **push** alors qu'il y a eu des mises à jour sur le depot principal entre temps, le système vous obligera à faire un **pull** avant, afin de mettre à jour votre dépot local. 
+Quand on essaye de faire un **push** alors qu'il y a eu des mises à jour sur le depot principal depuis notre dernière importation, le système vous obligera à faire un **pull** avant, afin de mettre à jour votre dépot local. 
