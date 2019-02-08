@@ -15,12 +15,12 @@ sudo apt-get install git
 ```
 À partir de maintenant, **il est indispensable d'être situé dans le dossier 'projet-maths'**
 
-#Prémière importation:
+# Prémière importation:
 Ensuite, importer le projet ***pour la prémière fois*** en exécutant la commande : 
 ```bash
 git clone https://github.com/MaGhAnBi/projet-maths.git
 ```
-#Exporter son travail le depot git du projet:
+# Exporter son travail le depot git du projet:
 
 ```bash
 git add -A
@@ -28,7 +28,7 @@ git commit -m "UN COURT MESSAGE POUR ETIQUETTER LE TRAVAIL OU SINON A LAISSER VI
 git push
 ```
 
-#Importer l'état actuel du dépôt: (**Mettre à jour son depot local')
+# Importer l'état actuel du dépôt: (**Mettre à jour son depot local')
 
 ```bash
 git pull
