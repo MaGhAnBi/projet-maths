@@ -39,3 +39,6 @@ git pull
 ## Remarque :
 
 Quand on essaye de faire un **push** alors qu'il y a eu des mises à jour sur le depot principal depuis notre dernière importation, le système vous obligera à faire un **pull** avant, afin de mettre à jour votre dépot local. 
+
+## Tuto de creation de nouveau branch
+https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/
