@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import load_DB as ldb
 import numpy as np
 
@@ -25,6 +26,10 @@ def calcMoy(somme,nb):
 
 for i in range(10):
     moyenne.append(calcMoy(somme[i],nb[i]))
+
+#cells = np.zeros((4,4,49))
+#probaCells=np.zeros(16)
+
     
 fic = open("DATA_matrice_moyenne.py","w")
 fic.write("matrice_moyenne = [\n")
