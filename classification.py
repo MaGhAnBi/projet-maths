@@ -32,14 +32,33 @@ def classificationCosinus(indice):
             
     return index
 
+"""
+    Retourne la liste des K (K<=45) couples de chiffres les plus confondus ainsi que le nombre de fois qu'ils ont été confondus
+"""
+def K_most_confused(matrice,K = 5):
+    liste = [] 
+    iu1 = np.triu_indices(matrice.shape[0])
+    matrice = matrice+ matrice.transpose()
+    matrice[iu1] = -1
+    for i in range (K) :
+        position = np.unravel_index(np.argmax(matrice, axis=None), matrice.shape)
+        liste.append(np.append(np.flip(position,0),matrice[position]).tolist())
+        matrice[position] = -1
+    return liste 
+
 def successRate(Test,algorithme):
     label = []
+    matriceConfusion = np.zeros((10,10),int)
     for e in Test:
         label.append(algorithme(e))
     nbSuccess = 0
     for i in range(len(Test)):
         if label[i]==ldb.getLabel(Test[i]):
             nbSuccess+=1
+        else :
+            matriceConfusion[ldb.getLabel(Test[i]),label[i]] +=1
+    
+    print(K_most_confused(matriceConfusion))
     return nbSuccess/len(Test)
 
 Training , Test = ldb.seperateData()
