@@ -15,7 +15,54 @@ def classificationMoyenne(indice):
             mini = d
     return index
 
+def classificationChebyshev(indice):
+    M=ldb.getData(indice)
+    mini=np.inf
+    index=0
+    for i in range(10):
+        d=distance.chebyshev(M,DATA.matrice_moyenne[i])
+        if d<mini:
+            index=i
+            mini=d
+    return index
 
+
+def classificationMinkowski(indice):
+    M=ldb.getData(indice)
+    minimum=np.inf
+    index=0
+    for i in range(10):
+        d=distance.minkowski(M,DATA.matrice_moyenne[i],3)
+        if d<minimum:
+            index=i
+            minimum=d
+ 
+    return index 
+
+
+def classificationCorrelation(indice):
+    M=ldb.getData(indice)
+    minimum=np.inf
+    index=0
+    for i in range(10):
+        d=distance.correlation(M,DATA.matrice_moyenne[i])
+        if d<minimum:
+            index=i
+            minimum=d
+    return index
+       
+
+
+def classificationManhattan(indice):
+    M=ldb.getData(indice)
+    mini=np.inf
+    index=0
+    for i in range(10):
+        d=distance.cityblock(M,DATA.matrice_moyenne[i])
+        if d<mini:
+            index=i
+            mini=d
+    return index
 def classificationCosinus(indice):
     M = ldb.getData(indice)
     normeM =  np.linalg.norm(M)
