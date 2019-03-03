@@ -88,23 +88,6 @@ def classificationCosinus(indice):
     return index
 
 
-"""
-
-"""
-
-
-def get_svd(matrix):
-    U, S, V = np.linalg.svd(matrix, full_matrices=True)
-
-    return U, S, V
-
-
-def apply_svd(label, basis_size):
-    data = ldb.getAllTrainingDataOfLabel(label)
-    print("Data loaded")
-    U, S, V = scipy.sparse.linalg.svds(data, k=basis_size)
-    # U, S, V = get_svd(data)
-    return (U, S, V)
 
 
 """

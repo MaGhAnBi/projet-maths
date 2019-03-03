@@ -12,10 +12,10 @@ mnist_label = mnist["label"][0]
 nbChiffre = [6903, 7877, 6990, 7141, 6824, 6313, 6876, 7293, 6825, 6958]
 
 
-# retourne une liste des indices des chiffres n dans le tableau data
-def findChiffre(n):
+# retourne une liste des indices des chiffres n dans le tableau db
+def findChiffre(n,db):
     lst = []
-    for i in range(len(mnist_data)):
+    for i in range(len(db)):
         if int(mnist_label[i]) == n:
             lst.append(i)
     return lst
@@ -24,7 +24,7 @@ def findChiffre(n):
 # retourne les pixel du chiffre de l'indice donné sous forme d'une liste
 def getData(indice):
     if indice >= 0 and indice < 70000:
-        return mnist_data[indice]
+        return np.array(mnist_data[indice])
 
 
 # affiche le chiffre de l'indice donné
@@ -49,7 +49,7 @@ def getLabel(indice):
 def seperateData(ratio=0.8):
     Training = []
     Test = []
-    lst = [findChiffre(i) for i in range(10)]
+    lst = [findChiffre(i,mnist_data) for i in range(10)]
     for n in range(10):
         limit = int(ratio * nbChiffre[n])
         for i in range(nbChiffre[n]):
@@ -60,17 +60,4 @@ def seperateData(ratio=0.8):
     return Training, Test
 
 
-def getAllTrainingDataOfLabel(label, ratio=0.8):
-    quantite = int(ratio * nbChiffre[label])
-    count = 0
-    data = []
-    indice = 0
-    while count < quantite:
-        if mnist_label[indice] == label:
-            data.append(mnist_data[indice])
-            count += 1
-        indice += 1
-    data = np.array(data)
-    print("OK")
-    # return data.transpose()
 
