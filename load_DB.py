@@ -24,7 +24,7 @@ def findChiffre_liste(n,db):
     lst = []
     for i in range(len(db)):
         if int(mnist_label[db[i]]) == n:
-            lst.append(db[i])
+            lst.append(i)
     return lst
 
 

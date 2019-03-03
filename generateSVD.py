@@ -16,7 +16,8 @@ def generate_svd_bases(label,Training,N):
             A_c[j,i] = vecteur_image[j]
             
     U,s,V = np.linalg.svd(A_c)
-    U_N = np.array([ np.array(U[:,i]) for i in range(N)]).transpose()
+    U = U.transpose()#on cherche à extraire les vecteurs colonnes
+    U_N = np.array([ np.array(U[i]) for i in range(N)])
     return U_N
 
 bases_SVD = [] # bases_SVD[n] := la base des u_i pour le chiffre n  
@@ -25,20 +26,23 @@ bases_SVD = [] # bases_SVD[n] := la base des u_i pour le chiffre n
 def init_bases_SVD(N):
     for i in range(10):
         bases_SVD.append(generate_svd_bases(i,Training,N))
-
-init_bases_SVD(10)
+        
+N = 10
+init_bases_SVD(N)
 
 fic = open("DATA_SVD.py","w")
+fic.write("#--coding: utf-8--\n")
 fic.write("bases_SVD = [")
+
 for k in range(10):
     fic.write("[")
     string = ""
-    for i in range(784):
+    for i in range(10):
         string+="["
         lst = ','.join(str(e) for e in bases_SVD[k][i])
         string+=lst
         string+="]"
-        if i<783:
+        if i<9:
             string+=","
     fic.write(string)
     fic.write("]")
@@ -46,4 +50,4 @@ for k in range(10):
         fic.write(",")
     fic.write("\n")
 fic.write("]\n")
-   
+fic.close()   
