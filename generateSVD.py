@@ -7,7 +7,7 @@ Training , Test = ldb.seperateData()
 genere les N premirs vecteurs u_i de l'image du chiffre label
 """
 def generate_svd_bases(label,Training,N):
-    data = ldb.findChiffre(label,Training) # trouves les indices correspondant au label
+    data = ldb.findChiffre_liste(label,Training) # trouves les indices correspondant au label
     A_c = np.zeros((784,len(data))) 
     # calcul de la matrice A_c (cf rapport collectif)
     for i in range(len(data)):
