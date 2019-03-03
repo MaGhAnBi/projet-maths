@@ -1,9 +1,8 @@
 import DATA_matrice_moyenne as DATA
 import load_DB as ldb
 import numpy as np
-from scipy.sparse import csc_matrix
-from scipy.sparse.linalg import svds, eigs
-
+import SVD
+import DATA_SVD
 
 def classificationMoyenne(indice):
     M = ldb.getData(indice)
@@ -106,10 +105,18 @@ def K_most_confused(matrice, K=5):
         matrice[position] = -1
     return liste
 
+def classificationSVD(indice):
+    scores = [0.]*10
+    for label in range(10):
+        scores[label] = SVD.distance_de_base(np.array(DATA_SVD.bases_SVD[label]).transpose(), indice)
+    #print(scores)
+    return np.argmin(scores)
+
 
 def successRate(Test, algorithme):
     label = []
     matriceConfusion = np.zeros((10, 10), int)
+    i = 0
     for e in Test:
         label.append(algorithme(e))
     nbSuccess = 0
@@ -122,9 +129,13 @@ def successRate(Test, algorithme):
     print(K_most_confused(matriceConfusion))
     return nbSuccess / len(Test)
 
-# Training , Test = ldb.seperateData()
+Training , Test = ldb.seperateData()
+
 
 # print("Classification Moyenne :",successRate(Test,classificationMoyenne))
 
 # print("Classification Cosinus :",successRate(Test,classificationCosinus))
+
+
+print("Classification SVD :",successRate(Test,classificationSVD))
 

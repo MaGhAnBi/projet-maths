@@ -11,12 +11,19 @@ mnist_label = mnist["label"][0]
 
 nbChiffre = [6903, 7877, 6990, 7141, 6824, 6313, 6876, 7293, 6825, 6958]
 
+# retourne une liste d'indices de tous les chiffres n dans la bese de donnée mnist
+def findChiffre(n):
+    lst = []
+    for i in range(len(mnist_data)):
+        if int(mnist_label[i]) == n:
+            lst.append(i)
+    return lst
 
-# retourne une liste des indices des chiffres n dans le tableau db
-def findChiffre(n,db):
+# retourne une liste des indices des chiffres n dans la listedb
+def findChiffre_liste(n,db):
     lst = []
     for i in range(len(db)):
-        if int(mnist_label[i]) == n:
+        if int(mnist_label[db[i]]) == n:
             lst.append(i)
     return lst
 
@@ -49,7 +56,7 @@ def getLabel(indice):
 def seperateData(ratio=0.8):
     Training = []
     Test = []
-    lst = [findChiffre(i,mnist_data) for i in range(10)]
+    lst = [findChiffre(i) for i in range(10)]
     for n in range(10):
         limit = int(ratio * nbChiffre[n])
         for i in range(nbChiffre[n]):
