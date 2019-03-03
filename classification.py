@@ -1,20 +1,25 @@
 import DATA_matrice_moyenne as DATA
 import load_DB as ldb
 import numpy as np
+from scipy.sparse import csc_matrix
+from scipy.sparse.linalg import svds, eigs
+
 
 def classificationMoyenne(indice):
     M = ldb.getData(indice)
     mini = np.inf
     index = 0
     for i in range(10):
-        D = np.subtract(M,DATA.matrice_moyenne[i])
+        D = np.subtract(M, DATA.matrice_moyenne[i])
         d = np.linalg.norm(D)
-       
-        if d<mini:
+
+        if d < mini:
             index = i
             mini = d
     return index
 
+
+"""
 def classificationChebyshev(indice):
     M=ldb.getData(indice)
     mini=np.inf
@@ -25,8 +30,8 @@ def classificationChebyshev(indice):
             index=i
             mini=d
     return index
-
-
+"""
+"""
 def classificationMinkowski(indice):
     M=ldb.getData(indice)
     minimum=np.inf
@@ -36,10 +41,10 @@ def classificationMinkowski(indice):
         if d<minimum:
             index=i
             minimum=d
- 
+
     return index 
-
-
+"""
+"""
 def classificationCorrelation(indice):
     M=ldb.getData(indice)
     minimum=np.inf
@@ -50,9 +55,9 @@ def classificationCorrelation(indice):
             index=i
             minimum=d
     return index
-       
+"""
 
-
+"""
 def classificationManhattan(indice):
     M=ldb.getData(indice)
     mini=np.inf
@@ -63,53 +68,80 @@ def classificationManhattan(indice):
             index=i
             mini=d
     return index
+"""
+
+
 def classificationCosinus(indice):
     M = ldb.getData(indice)
-    normeM =  np.linalg.norm(M)
-    bestScore = 0 
+    normeM = np.linalg.norm(M)
+    bestScore = 0
     index = 0
     for i in range(10):
-        mean = DATA.matrice_moyenne[i] 
+        mean = DATA.matrice_moyenne[i]
         dotProduct = M.dot(mean)
-        normeMean =  np.linalg.norm(mean)
-        cosinus = dotProduct/(normeM*normeMean) # normeM et normeMean sont forcement differentes de 0
-        if bestScore<cosinus:
+        normeMean = np.linalg.norm(mean)
+        cosinus = dotProduct / (normeM * normeMean)  # normeM et normeMean sont forcement differentes de 0
+        if bestScore < cosinus:
             index = i
             bestScore = cosinus
-            
+
     return index
+
+
+"""
+
+"""
+
+
+def get_svd(matrix):
+    U, S, V = np.linalg.svd(matrix, full_matrices=True)
+
+    return U, S, V
+
+
+def apply_svd(label, basis_size):
+    data = ldb.getAllTrainingDataOfLabel(label)
+    print("Data loaded")
+    U, S, V = scipy.sparse.linalg.svds(data, k=basis_size)
+    # U, S, V = get_svd(data)
+    return (U, S, V)
+
 
 """
     Retourne la liste des K (K<=45) couples de chiffres les plus confondus ainsi que le nombre de fois qu'ils ont été confondus
 """
-def K_most_confused(matrice,K = 5):
-    liste = [] 
-    iu1 = np.triu_indices(matrice.shape[0])
-    matrice = matrice+ matrice.transpose()
-    matrice[iu1] = -1
-    for i in range (K) :
-        position = np.unravel_index(np.argmax(matrice, axis=None), matrice.shape)
-        liste.append(np.append(np.flip(position,0),matrice[position]).tolist())
-        matrice[position] = -1
-    return liste 
 
-def successRate(Test,algorithme):
+
+def K_most_confused(matrice, K=5):
+    liste = []
+    iu1 = np.triu_indices(matrice.shape[0])
+    matrice = matrice + matrice.transpose()
+    matrice[iu1] = -1
+    for i in range(K):
+        position = np.unravel_index(np.argmax(matrice, axis=None), matrice.shape)
+        liste.append(np.append(np.flip(position, 0), matrice[position]).tolist())
+        matrice[position] = -1
+    return liste
+
+
+def successRate(Test, algorithme):
     label = []
-    matriceConfusion = np.zeros((10,10),int)
+    matriceConfusion = np.zeros((10, 10), int)
     for e in Test:
         label.append(algorithme(e))
     nbSuccess = 0
     for i in range(len(Test)):
-        if label[i]==ldb.getLabel(Test[i]):
-            nbSuccess+=1
-        else :
-            matriceConfusion[ldb.getLabel(Test[i]),label[i]] +=1
-    
+        if label[i] == ldb.getLabel(Test[i]):
+            nbSuccess += 1
+        else:
+            matriceConfusion[ldb.getLabel(Test[i]), label[i]] += 1
+
     print(K_most_confused(matriceConfusion))
-    return nbSuccess/len(Test)
+    return nbSuccess / len(Test)
 
-Training , Test = ldb.seperateData()
+# Training , Test = ldb.seperateData()
 
-print("Classification Moyenne :",successRate(Test,classificationMoyenne))
+# print("Classification Moyenne :",successRate(Test,classificationMoyenne))
 
-print("Classification Cosinus :",successRate(Test,classificationCosinus))
+# print("Classification Cosinus :",successRate(Test,classificationCosinus))
+
