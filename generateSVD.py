@@ -26,7 +26,7 @@ def init_bases_SVD(N):
     for i in range(10):
         bases_SVD.append(generate_svd_bases(i,Training,N))
         
-N = 10
+N = 25
 init_bases_SVD(N)
 
 fic = open("DATA_SVD.py","w")
