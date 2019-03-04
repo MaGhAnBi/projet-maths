@@ -18,7 +18,6 @@ def classificationMoyenne(indice):
             mini = d
     return index
 
-
 """
 def classificationChebyshev(indice):
     M=ldb.getData(indice)
@@ -70,7 +69,6 @@ def classificationManhattan(indice):
     return index
 """
 
-
 def classificationCosinus(indice):
     M = ldb.getData(indice)
     normeM = np.linalg.norm(M)
@@ -109,7 +107,7 @@ def K_most_confused(matrice, K=5):
 def classificationSVD(indice):
     scores = [0.]*10
     for label in range(10):
-        donnee = DATA.bases_SVD[label]
+        donnee = DATA_SVD.bases_SVD[label]
         donnee = np.array(donnee)
         scores[label] = SVD.distance_de_base(donnee, indice)
 
@@ -121,8 +119,8 @@ def successRate(Test, algorithme):
     matriceConfusion = np.zeros((10, 10), int)
     i = 0
     for e in Test:
-        if i % 500 == 0 :
-            print (i)
+        if i % 500 == 0:
+            print((i/14000)*100, "%")
         i += 1
         label.append(algorithme(e))
     nbSuccess = 0
@@ -144,7 +142,7 @@ Training , Test = ldb.seperateData()
 # GENERATION DONNEES :
 
 generateSVD.init_bases_SVD(8)
-
+print("CALCAUL DE LA SVD EN COURS")
 print("Classification SVD :",successRate(Test,classificationSVD))
 
 

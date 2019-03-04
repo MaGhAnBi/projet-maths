@@ -29,16 +29,15 @@ def getAllTrainingDataOfLabel(label, ratio=0.8):
 
 def apply_svd(label, basis_size):
     data = getAllTrainingDataOfLabel(label)
-    print("Data loaded")
     data = np.array(data,dtype=np.float64)
     U, S, V = scipy.sparse.linalg.svds(data, k=basis_size)
     return U
 
 
-def init_bases_SVD(M,nom_fichier_de_sauvegarde ="DATA_SVD.py" ):
+def init_bases_SVD(label,nom_fichier_de_sauvegarde ="DATA_SVD.py" ):
     bases_SVD = []  # bases_SVD[n] := la base des u_i pour le chiffre n
     for i in range(10):
-        bases_SVD.append(apply_svd(i, M))
+        bases_SVD.append(apply_svd(i, label))
     save_svd_data(bases_SVD,nom_fichier_de_sauvegarde)
 
 
@@ -65,8 +64,9 @@ def save_svd_data (base,nom_fichier_de_sauvegarde) :
         fic.write("\n")
     fic.write("]\n")
     fic.close()
+    print("FIN CALCUL SVD, DONNÉES SAUVEGARDÉES DANS "+nom_fichier_de_sauvegarde)
 
 
 taille_de_la_base = 8
 nom_fichier_sauvegarde = "DATA_"+str(taille_de_la_base)+"_SVD.py"
-init_bases_SVD(nom_fichier_sauvegarde)
+init_bases_SVD(taille_de_la_base)

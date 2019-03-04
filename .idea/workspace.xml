@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="243b2d01-d60c-4ae7-92fa-d2e0631301a7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DATA_SVD.py" beforeDir="false" afterPath="$PROJECT_DIR$/DATA_SVD.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DATA_SVD2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GenerateSVD2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SVD.py" beforeDir="false" afterPath="$PROJECT_DIR$/SVD.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generateSVD.py" beforeDir="false" afterPath="$PROJECT_DIR$/generateSVD.py" afterDir="false" />
     </list>
@@ -18,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/classification.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
+            <state relative-caret-position="274">
+              <caret line="126" column="30" lean-forward="true" selection-start-line="126" selection-start-column="30" selection-end-line="126" selection-end-column="30" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -42,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/generateSVD.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+            <state relative-caret-position="250">
+              <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
               <folding>
                 <element signature="e#24#36#0" expanded="true" />
               </folding>
@@ -57,8 +53,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DATA_SVD.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="172275" selection-start-line="10" selection-start-column="172275" selection-end-line="10" selection-end-column="172275" />
+            <state relative-caret-position="15">
+              <caret line="1" column="9" selection-start-line="1" selection-end-line="1" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -85,7 +81,7 @@
         <entry file="file://$PROJECT_DIR$/SVD.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
-              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
               <folding>
                 <element signature="e#19#37#0" expanded="true" />
               </folding>
@@ -124,7 +120,9 @@
       <find>print</find>
       <find>gen_U_k</find>
       <find>i +=</find>
+      <find>apply_svd</find>
       <find>i+=</find>
+      <find>init_bases_SVD</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -279,9 +277,9 @@
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="2" />
       <window_info anchor="bottom" id="Message" order="3" />
-      <window_info anchor="bottom" id="Find" order="4" visible="true" weight="0.32876712" />
+      <window_info anchor="bottom" id="Find" order="4" weight="0.32876712" />
       <window_info anchor="bottom" id="Version Control" order="5" />
-      <window_info anchor="bottom" id="Run" order="6" weight="0.32876712" />
+      <window_info anchor="bottom" id="Run" order="6" visible="true" weight="0.32876712" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -353,36 +351,36 @@
     <entry file="file://$PROJECT_DIR$/SVD.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
           <folding>
             <element signature="e#19#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classification.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DATA_SVD.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="172275" selection-start-line="10" selection-start-column="172275" selection-end-line="10" selection-end-column="172275" />
+        <state relative-caret-position="15">
+          <caret line="1" column="9" selection-start-line="1" selection-end-line="1" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/generateSVD.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+        <state relative-caret-position="250">
+          <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
           <folding>
             <element signature="e#24#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="126" column="30" lean-forward="true" selection-start-line="126" selection-start-column="30" selection-end-line="126" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
