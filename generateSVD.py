@@ -25,7 +25,7 @@ bases_SVD = [] # bases_SVD[n] := la base des u_i pour le chiffre n
 def init_bases_SVD(N):
     for i in range(10):
         bases_SVD.append(generate_svd_bases(i,Training,N))
-        
+       
 N = 25
 init_bases_SVD(N)
 
@@ -36,12 +36,12 @@ fic.write("bases_SVD = [")
 for k in range(10):
     fic.write("[")
     string = ""
-    for i in range(10):
+    for i in range(N):
         string+="["
         lst = ','.join(str(e) for e in bases_SVD[k][i])
         string+=lst
         string+="]"
-        if i<9:
+        if i<(N-1):
             string+=","
     fic.write(string)
     fic.write("]")
