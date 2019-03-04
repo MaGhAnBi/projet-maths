@@ -84,13 +84,9 @@ def classificationCosinus(indice):
             bestScore = cosinus
     return index
 
-
-
-
 """
     Retourne la liste des K (K<=45) couples de chiffres les plus confondus ainsi que le nombre de fois qu'ils ont été confondus
 """
-
 
 def K_most_confused(matrice, K=5):
     liste = []
@@ -114,7 +110,7 @@ def classificationSVD(indice):
     return np.argmin(scores)
 
 
-def successRate(Test, algorithme):
+def successRate( Test, algorithme):
     label = []
     matriceConfusion = np.zeros((10, 10), int)
     i = 0
@@ -130,7 +126,7 @@ def successRate(Test, algorithme):
         else:
             matriceConfusion[ldb.getLabel(Test[i]), label[i]] += 1
 
-    print(K_most_confused(matriceConfusion))
+    print("Confusions [ a , b , n ] : ", K_most_confused(matriceConfusion))
     return nbSuccess / len(Test)
 
 Training , Test = ldb.seperateData()
@@ -141,8 +137,5 @@ Training , Test = ldb.seperateData()
 
 # GENERATION DONNEES :
 
-generateSVD.init_bases_SVD(8)
-print("CALCAUL DE LA SVD EN COURS")
-print("Classification SVD :",successRate(Test,classificationSVD))
-
-
+print("CALCUL DE LA SVD EN COURS")
+print("Classification SVD :", successRate(Test,classificationSVD))

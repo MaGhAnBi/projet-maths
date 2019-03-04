@@ -35,6 +35,7 @@ def apply_svd(label, basis_size):
 
 
 def init_bases_SVD(label,nom_fichier_de_sauvegarde ="DATA_SVD.py" ):
+    print("DEBUT CALCUL SVD")
     bases_SVD = []  # bases_SVD[n] := la base des u_i pour le chiffre n
     for i in range(10):
         bases_SVD.append(apply_svd(i, label))
@@ -66,7 +67,8 @@ def save_svd_data (base,nom_fichier_de_sauvegarde) :
     fic.close()
     print("FIN CALCUL SVD, DONNÉES SAUVEGARDÉES DANS "+nom_fichier_de_sauvegarde)
 
+# nom_fichier_sauvegarde = "DATA_"+str(taille_de_la_base)+"_SVD.py"
+# init_bases_SVD(taille_de_la_base)
 
-taille_de_la_base = 8
-nom_fichier_sauvegarde = "DATA_"+str(taille_de_la_base)+"_SVD.py"
+taille_de_la_base = 2
 init_bases_SVD(taille_de_la_base)
