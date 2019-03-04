@@ -3,7 +3,7 @@ import load_DB as ldb
 import numpy as np
 import SVD
 import DATA_SVD
-import DATA_SVD2
+import generateSVD
 
 def classificationMoyenne(indice):
     M = ldb.getData(indice)
@@ -84,7 +84,6 @@ def classificationCosinus(indice):
         if bestScore < cosinus:
             index = i
             bestScore = cosinus
-
     return index
 
 
@@ -106,26 +105,14 @@ def K_most_confused(matrice, K=5):
         matrice[position] = -1
     return liste
 
-<<<<<<< HEAD
-k = 10
-#bases_k = SVD.gen_U_k(k)
-
-=======
-k = 
-bases_k = SVD.gen_U_k(k)
-lst_M = SVD.gen_M(bases_k)
->>>>>>> a4b6995023fae2e88f8a9607c8709d68770b061d
 
 def classificationSVD(indice):
     scores = [0.]*10
     for label in range(10):
-<<<<<<< HEAD
-        donnee = DATA_SVD2.bases_SVD[label]
+        donnee = DATA.bases_SVD[label]
         donnee = np.array(donnee)
         scores[label] = SVD.distance_de_base(donnee, indice)
-=======
-        scores[label] = SVD.distance_de_base(label, indice,lst_M)
->>>>>>> a4b6995023fae2e88f8a9607c8709d68770b061d
+
     return np.argmin(scores)
 
 
@@ -154,6 +141,10 @@ Training , Test = ldb.seperateData()
 
 # print("Classification Cosinus :",successRate(Test,classificationCosinus))
 
+# GENERATION DONNEES :
+
+generateSVD.init_bases_SVD(8)
 
 print("Classification SVD :",successRate(Test,classificationSVD))
+
 

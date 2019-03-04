@@ -1,53 +1,72 @@
-import load_DB as ldb
+# -*- coding: utf-8 -*-
+import scipy
+from scipy.io import loadmat
 import numpy as np
+from scipy.sparse import csc_matrix
+from scipy.sparse.linalg import svds, eigs
 
-Training , Test = ldb.seperateData()
+# chargement de la base de donnée
+mnist = loadmat("./mnist-original.mat")
+mnist_data = mnist["data"].T
+mnist_label = mnist["label"][0]
 
-"""
-genere les N premirs vecteurs u_i de l'image du chiffre label
-"""
-def generate_svd_bases(label,Training,N):
-    data = ldb.findChiffre_liste(label,Training) # trouves les indices correspondant au label
-    A_c = np.zeros((784,len(data))) 
-    # calcul de la matrice A_c (cf rapport collectif)
-    for i in range(len(data)):
-        vecteur_image = ldb.getData(data[i])
-        for j in range(784):
-            A_c[j,i] = vecteur_image[j]
-    U,s,V = np.linalg.svd(A_c)
-    U = U.transpose()#on cherche à extraire les vecteurs colonnes
-    U_N = np.array([ np.array(U[i]) for i in range(N)])
-    return U_N
-
-bases_SVD = [] # bases_SVD[n] := la base des u_i pour le chiffre n  
+nbChiffre = [6903, 7877, 6990, 7141, 6824, 6313, 6876, 7293, 6825, 6958]
 
 
+def getAllTrainingDataOfLabel(label, ratio=0.8):
+    quantite = int(ratio * nbChiffre[label])
+    count = 0
+    data = []
+    indice = 0
+    while count < quantite:
+        if mnist_label[indice] == label:
+            data.append(mnist_data[indice])
+            count += 1
+        indice += 1
+    data = np.array(data)
+    return data.transpose()
 
-def init_bases_SVD(N):
+
+def apply_svd(label, basis_size):
+    data = getAllTrainingDataOfLabel(label)
+    print("Data loaded")
+    data = np.array(data,dtype=np.float64)
+    U, S, V = scipy.sparse.linalg.svds(data, k=basis_size)
+    return U
+
+
+def init_bases_SVD(M,nom_fichier_de_sauvegarde ="DATA_SVD.py" ):
+    bases_SVD = []  # bases_SVD[n] := la base des u_i pour le chiffre n
     for i in range(10):
-        bases_SVD.append(generate_svd_bases(i,Training,N))
-       
-N = 25
-init_bases_SVD(N)
+        bases_SVD.append(apply_svd(i, M))
+    save_svd_data(bases_SVD,nom_fichier_de_sauvegarde)
 
-fic = open("DATA_SVD2.py","w")
-fic.write("#--coding: utf-8--\n")
-fic.write("bases_SVD = [")
 
-for k in range(10):
-    fic.write("[")
-    string = ""
-    for i in range(N):
-        string+="["
-        lst = ','.join(str(e) for e in bases_SVD[k][i])
-        string+=lst
-        string+="]"
-        if i<(N-1):
-            string+=","
-    fic.write(string)
-    fic.write("]")
-    if k<9:
-        fic.write(",")
-    fic.write("\n")
-fic.write("]\n")
-fic.close()   
+def save_svd_data (base,nom_fichier_de_sauvegarde) :
+    N = 784
+    fic = open(nom_fichier_de_sauvegarde, "w")
+    fic.write("#--coding: utf-8--\n")
+    fic.write("bases_SVD = [")
+
+    for k in range(10):
+        fic.write("[")
+        string = ""
+        for i in range(N):
+            string += "["
+            lst = ','.join(str(e) for e in base[k][i])
+            string += lst
+            string += "]"
+            if i < (N - 1):
+                string += ","
+        fic.write(string)
+        fic.write("]")
+        if k < 9:
+            fic.write(",")
+        fic.write("\n")
+    fic.write("]\n")
+    fic.close()
+
+
+taille_de_la_base = 8
+nom_fichier_sauvegarde = "DATA_"+str(taille_de_la_base)+"_SVD.py"
+init_bases_SVD(nom_fichier_sauvegarde)
