@@ -105,11 +105,14 @@ def K_most_confused(matrice, K=5):
         matrice[position] = -1
     return liste
 
+k = 1
+bases_k = SVD.gen_U_k(k)
+
 def classificationSVD(indice):
+   
     scores = [0.]*10
     for label in range(10):
-        scores[label] = SVD.distance_de_base(np.array(DATA_SVD.bases_SVD[label]).transpose(), indice)
-    #print(scores)
+        scores[label] = SVD.distance_de_base(bases_k[label], indice)
     return np.argmin(scores)
 
 
@@ -130,7 +133,6 @@ def successRate(Test, algorithme):
     return nbSuccess / len(Test)
 
 Training , Test = ldb.seperateData()
-
 
 # print("Classification Moyenne :",successRate(Test,classificationMoyenne))
 
