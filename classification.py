@@ -105,14 +105,15 @@ def K_most_confused(matrice, K=5):
         matrice[position] = -1
     return liste
 
-k = 1
+k = 
 bases_k = SVD.gen_U_k(k)
+lst_M = SVD.gen_M(bases_k)
 
 def classificationSVD(indice):
    
     scores = [0.]*10
     for label in range(10):
-        scores[label] = SVD.distance_de_base(bases_k[label], indice)
+        scores[label] = SVD.distance_de_base(label, indice,lst_M)
     return np.argmin(scores)
 
 

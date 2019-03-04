@@ -16,16 +16,24 @@ def gen_U_k(k):
         bases_k.append(np.array(U_k).transpose())
     return bases_k
 
+"""
+Entree: bases_k
+Sortie: une liste de matrice utilise pour le residuel des moindres carres
+"""
+def gen_M(bases_k):
+    lst_M = []
+    for n  in range(10):
+        lst_M.append(np.eye(784)-np.matmul(bases_k[n],bases_k[n].transpose())) # cf rapport collectif
+    return lst_M
 
 """
-Entrees: U := la bases des u_i d'un chiffre, image := l'indice d'un image non connu 
+Entrees:  image := l'indice d'un image non connu , lst_M := une liste des matrice M 
 Sortie: la distance minimal de l'image au plan Vect(U)
 """
-def distance_de_base(U,image):
+def distance_de_base(label,image,lst_M):
     v = ldb.getData(image)
     v = v.reshape((784,1))
-    #print(np.matmul(U,np.array(U).transpose()).size)
-    M = np.eye(784)-np.matmul(U,np.array(U).transpose()) # cf rapport collectif
+    M = lst_M[label]
     Mv = np.matmul(M,v) # multiplication de M*v
     return np.linalg.norm(Mv)
 
