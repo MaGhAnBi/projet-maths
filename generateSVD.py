@@ -22,6 +22,7 @@ def generate_svd_bases(label,Training,N):
 bases_SVD = [] # bases_SVD[n] := la base des u_i pour le chiffre n  
 
 
+
 def init_bases_SVD(N):
     for i in range(10):
         bases_SVD.append(generate_svd_bases(i,Training,N))
@@ -29,7 +30,7 @@ def init_bases_SVD(N):
 N = 25
 init_bases_SVD(N)
 
-fic = open("DATA_SVD.py","w")
+fic = open("DATA_SVD2.py","w")
 fic.write("#--coding: utf-8--\n")
 fic.write("bases_SVD = [")
 

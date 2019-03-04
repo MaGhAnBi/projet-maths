@@ -3,6 +3,7 @@ import load_DB as ldb
 import numpy as np
 import SVD
 import DATA_SVD
+import DATA_SVD2
 
 def classificationMoyenne(indice):
     M = ldb.getData(indice)
@@ -105,14 +106,16 @@ def K_most_confused(matrice, K=5):
         matrice[position] = -1
     return liste
 
-k = 1
-bases_k = SVD.gen_U_k(k)
+k = 10
+#bases_k = SVD.gen_U_k(k)
+
 
 def classificationSVD(indice):
-   
     scores = [0.]*10
     for label in range(10):
-        scores[label] = SVD.distance_de_base(bases_k[label], indice)
+        donnee = DATA_SVD2.bases_SVD[label]
+        donnee = np.array(donnee)
+        scores[label] = SVD.distance_de_base(donnee, indice)
     return np.argmin(scores)
 
 
@@ -121,6 +124,9 @@ def successRate(Test, algorithme):
     matriceConfusion = np.zeros((10, 10), int)
     i = 0
     for e in Test:
+        if i % 500 == 0 :
+            print (i)
+        i += 1
         label.append(algorithme(e))
     nbSuccess = 0
     for i in range(len(Test)):
