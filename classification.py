@@ -3,7 +3,7 @@ import load_DB as ldb
 import numpy as np
 import SVD
 import generateSVD
-
+from scipy.spatial import distance
 def classificationMoyenne(indice):
     M = ldb.getData(indice)
     mini = np.inf
@@ -17,7 +17,7 @@ def classificationMoyenne(indice):
             mini = d
     return index
 
-"""
+
 def classificationChebyshev(indice):
     M=ldb.getData(indice)
     mini=np.inf
@@ -66,7 +66,6 @@ def classificationManhattan(indice):
             index=i
             mini=d
     return index
-"""
 
 def classificationCosinus(indice):
     M = ldb.getData(indice)
@@ -98,7 +97,7 @@ def K_most_confused(matrice, K=5):
         matrice[position] = -1
     return liste
 
-k = 8
+k = 2
 M = generateSVD.init_bases_SVD(k)
 
 def classificationSVD(indice):
@@ -114,26 +113,32 @@ def successRate( Test, algorithme):
     matriceConfusion = np.zeros((10, 10), int)
     i = 0
     N = len(Test)
+    confusion = 0
     for e in Test:
-        if i % 500 == 0:
-            print((i/14000)*100, "%")
-        i += 1
+#        if i % 500 == 0:
+#            print((i/14000)*100, "%")
+#        i += 1
         label.append(algorithme(e))
     nbSuccess = 0
     for i in range(len(Test)):
         if label[i] == ldb.getLabel(Test[i]):
+
             nbSuccess += 1
         else:
             matriceConfusion[ldb.getLabel(Test[i]), label[i]] += 1
-
+            confusion+=1
+    matriceConfusion =matriceConfusion/confusion
     print("Confusions [ a , b , n ] : ", K_most_confused(matriceConfusion))
     return nbSuccess / N
 
 Training , Test = ldb.seperateData()
 
-# print("Classification Moyenne :",successRate(Test,classificationMoyenne))
-
-# print("Classification Cosinus :",successRate(Test,classificationCosinus))
+#print("Classification Moyenne :",successRate(Test,classificationMoyenne))
+#print("Classification Moyenne :",successRate(Test,classificationMinkowski))
+#
+#print("Classification Cosinus :",successRate(Test,classificationChebyshev))
+#print("Classification Cosinus :",successRate(Test,classificationManhattan))
+#print("Classification Cosinus :",successRate(Test,classificationCosinus))
 
 # GENERATION DONNEES :
 

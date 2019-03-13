@@ -27,12 +27,20 @@ def getAllTrainingDataOfLabel(label, ratio=0.8):
     return data.transpose()
 
 
+
+
 def apply_svd(label, basis_size):
     data = getAllTrainingDataOfLabel(label)
     data = np.array(data,dtype=np.float64)
     U, S, V = scipy.sparse.linalg.svds(data, k=basis_size)
     return U
 
+def apply_svd2(label, basis_size):
+    data = getAllTrainingDataOfLabel(label)
+    data = np.array(data,dtype=np.float64)
+    U, S, V = scipy.linalg.svd(data)
+    U = U.transpose()
+    return U[:basis_size].transpose()
 
 def init_bases_SVD(basis_size):
     print("DEBUT CALCUL SVD")
@@ -75,9 +83,3 @@ def save_svd_data (base,nom_fichier_de_sauvegarde) :
     fic.close()
     print("FIN CALCUL SVD, DONNÉES SAUVEGARDÉES DANS "+nom_fichier_de_sauvegarde)
 
-# nom_fichier_sauvegarde = "DATA_"+str(taille_de_la_base)+"_SVD.py"
-# init_bases_SVD(taille_de_la_base)
-    
-
-#taille_de_la_base = 2
-#init_bases_SVD(taille_de_la_base)
