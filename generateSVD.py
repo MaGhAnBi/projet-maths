@@ -34,19 +34,27 @@ def apply_svd(label, basis_size):
     return U
 
 
-def init_bases_SVD(label,nom_fichier_de_sauvegarde ="DATA_SVD.py" ):
+def init_bases_SVD(basis_size):
     print("DEBUT CALCUL SVD")
     bases_SVD = []  # bases_SVD[n] := la base des u_i pour le chiffre n
     for i in range(10):
-        bases_SVD.append(apply_svd(i, label))
-    save_svd_data(bases_SVD,nom_fichier_de_sauvegarde)
+        bases_SVD.append(apply_svd(i, basis_size))
+    """
+    M[i] := I-UU^T avec U correspondant à la base SVD du chiffre i
+    """
+    M = []
+    for i in range(10):
+        U = bases_SVD[i]
+        M.append(np.eye(784)-np.matmul(U,np.array(U).transpose())) 
+    return M
+
 
 
 def save_svd_data (base,nom_fichier_de_sauvegarde) :
     N = 784
     fic = open(nom_fichier_de_sauvegarde, "w")
     fic.write("#--coding: utf-8--\n")
-    fic.write("bases_SVD = [")
+    fic.write("M = [")
 
     for k in range(10):
         fic.write("[")
@@ -69,6 +77,7 @@ def save_svd_data (base,nom_fichier_de_sauvegarde) :
 
 # nom_fichier_sauvegarde = "DATA_"+str(taille_de_la_base)+"_SVD.py"
 # init_bases_SVD(taille_de_la_base)
+    
 
-taille_de_la_base = 2
-init_bases_SVD(taille_de_la_base)
+#taille_de_la_base = 2
+#init_bases_SVD(taille_de_la_base)
