@@ -5,11 +5,18 @@ import numpy as np
 from PIL import Image
 
 # chargement de la base de donnée
-mnist = loadmat("./mnist-original.mat")
+mnist = loadmat("mnist-original.mat")
 mnist_data = mnist["data"].T
 mnist_label = mnist["label"][0]
-
+print(len(mnist['label'][0]))
 nbChiffre = [6903, 7877, 6990, 7141, 6824, 6313, 6876, 7293, 6825, 6958]
+
+
+def resetDataBase(database_file_name):
+    mnist = loadmat(database_file_name)
+    mnist_data = mnist["data"].T
+    mnist_label = mnist["label"][0]
+
 
 # retourne une liste d'indices de tous les chiffres n dans la bese de donnée mnist
 def findChiffre(n):
@@ -19,8 +26,9 @@ def findChiffre(n):
             lst.append(i)
     return lst
 
+
 # retourne une liste des indices des chiffres n dans la listedb
-def findChiffre_liste(n,db):
+def findChiffre_liste(n, db):
     lst = []
     for i in range(len(db)):
         if int(mnist_label[db[i]]) == n:
@@ -30,7 +38,7 @@ def findChiffre_liste(n,db):
 
 # retourne les pixel du chiffre de l'indice donné sous forme d'une liste
 def getData(indice):
-    if indice >= 0 and indice < 70000:
+    if indice >= 0 and indice < len(mnist_data):
         return np.array(mnist_data[indice])
 
 
@@ -48,7 +56,7 @@ def afficheChiffre(M):
 
 # retourne le label du chiffre à l'indice donné
 def getLabel(indice):
-    if indice >= 0 and indice < 70000:
+    if indice >= 0 and indice < len(mnist_label):
         return int(mnist_label[indice])
 
 
@@ -65,6 +73,4 @@ def seperateData(ratio=0.8):
             else:
                 Test.append(lst[n][i])
     return Training, Test
-
-
 
