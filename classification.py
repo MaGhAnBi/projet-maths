@@ -4,6 +4,24 @@ import numpy as np
 import SVD
 import generateSVD
 from scipy.spatial import distance
+import GenerateTranformedData as generateT
+
+def classificationTangeante(indice):
+    
+     p=ldb.getData(indice)
+     mini=np.inf
+     derivs = ldb.getDerivationDB("translateX.mat")
+     tp = np.array([derivs[indice]]).transpose()
+     for i in range(60000):
+         e = ldb.getData(i)
+         te = np.array([derivs[i]]).transpose()
+         d=generateT.TangenteDistance(p,e,tp,te)
+         if d<mini:
+             index=i
+             mini=d
+    return index
+         
+         
 def classificationMoyenne(indice):
     M = ldb.getData(indice)
     mini = np.inf
