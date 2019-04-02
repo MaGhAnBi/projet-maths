@@ -9,6 +9,7 @@ mnist = loadmat("mnist-original.mat")
 mnist_data = mnist["data"].T
 mnist_label = mnist["label"][0]
 
+mnist_derivation = []
 print(len(mnist['label'][0]))
 nbChiffre = [6903, 7877, 6990, 7141, 6824, 6313, 6876, 7293, 6825, 6958]
 
@@ -17,7 +18,7 @@ def resetDataBase(database_file_name):
     mnist = loadmat(database_file_name)
     mnist_data = mnist["data"].T
     mnist_label = mnist["label"][0]
-
+    mnist_derivation = mnist["derviation"].T
 
 # retourne une liste d'indices de tous les chiffres n dans la bese de donnée mnist
 def findChiffre(n):
@@ -35,6 +36,11 @@ def findChiffre_liste(n, db):
         if int(mnist_label[db[i]]) == n:
             lst.append(i)
     return lst
+
+
+def getDerivation(indice):
+    if indice >= 0 and indice < len(mnist_data):
+        return np.array(mnist_derivation[indice])
 
 
 # retourne les pixel du chiffre de l'indice donné sous forme d'une liste
