@@ -5,26 +5,40 @@ import load_DB as ldb
 import PIL
 import matplotlib.pyplot as plt
 from random import randint
+from scipy.signal import convolve2d
 
-
-def translationDB(translate):
+def translationX_DB():
     """
-    Fonction : calcul la derive de la translation translate pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
+    Fonction : calcul la derive de la translation par rapport à x pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
     """
     dic = {}
     nbData = 70000
     dic["derivation"] = np.zeros((nbData, 784))
     i=0
+    Gx = np.array([[-1,0,1],[-2,0,2],[-1,0,1]])
     for image in range(nbData):
         data = ldb.getData(image)
-        df_pos = translate(data,1) #s(image,1)
-        df_neg = translate(data,-1) #s(image,-1)
-        deriv = (df_pos-df_neg)/2 #s(image,1)-s(image,-1) approsximation de la dérivée de s au point (image,0)
-        dic["derivation"][i] = deriv
+        deriv = convolve2d(data.reshape((28,28)),Gx, mode='same')
+        dic["derivation"][i] = deriv.reshape(784)
         i+=1
-    savemat(translate.__name__, dic,do_compression=True)
+    savemat("translateX", dic,do_compression=True)
 
-
+def translationY_DB():
+    """
+    Fonction : calcul la derive de la translation par rapport à y pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
+    """
+    dic = {}
+    nbData = 70000
+    dic["derivation"] = np.zeros((nbData, 784))
+    i=0
+    Gy = np.array([[-1,0,1],[-2,0,2],[-1,0,1]]).transpose()
+    for image in range(nbData):
+        data = ldb.getData(image)
+        deriv = convolve2d(data.reshape((28,28)),Gy, mode='same')
+        dic["derivation"][i] = deriv.reshape(784)
+        i+=1
+    savemat("translateY", dic,do_compression=True)
+    
 def translateX(image, alphaX):
     """
     translateX : (image : 1x784, alphaX : int  ) ==> imageTranslated, T:differentielle de l'operation
@@ -80,16 +94,27 @@ def TangenteDistance(p, e, Tp, Te):
     return np.linalg.norm(d)
 
 
-"""
-Training, Test = ldb.seperateData()
-alpha = 4
-derivs = ldb.getDerivationDB("translateX.mat")
-p = ldb.getData(15)
-tp = np.array([derivs[15]]).transpose()
-e = ldb.getData(20)
-te = np.array([derivs[20]]).transpose()
-print(TangenteDistance(p,e,tp,te))
-print(np.linalg.norm(e-p))
-ldb.afficheChiffre(ldb.getData(15))
-ldb.afficheChiffre(ldb.getData(20))
-"""
+translationY_DB()
+#Training, Test = ldb.seperateData()
+#alpha = 4
+##ldb.resetDataBase("translateX.mat")
+#derivs = ldb.getDerivationDB("translateX.mat")
+#p = ldb.getData(15)
+#tp = np.array([derivs[15]]).transpose()
+#e = ldb.getData(20)
+#te = np.array([derivs[20]]).transpose()
+#print(TangenteDistance(p,e,tp,te))
+#print(np.linalg.norm(e-p))
+#ldb.afficheChiffre(ldb.getData(15))
+#ldb.afficheChiffre(ldb.getData(20))
+# M = ldb.getData(10)
+# trX = translateX(M,5)
+# trY = translateY(M,5)
+##translation(trainingData,0)
+##img = translateX(M,1)
+# plt.imshow(M.reshape(28,28))
+# plt.show()
+# plt.imshow(trX)
+# plt.show()
+# plt.imshow(trY)
+# plt.show()
