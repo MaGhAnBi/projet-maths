@@ -26,9 +26,14 @@ def resetDataBase(database_file_name):
     mnist_data = mnist["data"].T
     mnist_label = mnist["label"][0]
     global mnist_derivation
-    mnist_derivation = mnist["derivation"].T
+    mnist_derivation = mnist["derivation"]
     print("FIN RESET DATA ...", str(len(mnist_derivation)))
-
+def getDerivationDB(db):
+    """
+    retourne un vecteur composé de tous les derivations possibles
+    """
+    db = loadmat(db)
+    return db["derivation"]
 # retourne une liste d'indices de tous les chiffres n dans la bese de donnée mnist
 def findChiffre(n):
     lst = []

@@ -7,31 +7,23 @@ import matplotlib.pyplot as plt
 from random import randint
 
 
-def translationDB(database, alpha, translate):
+def translationDB(database, translate):
     """
-    Fonction : Translate de pas de -alpha à alpha en le sauvegardent le resultat dans translate.mat
+    Fonction : calcul la derive de la translation translate pour chaque image dans database et stock le resultat  dans translate.mat
     """
-    if alpha < 0:
-        alpha = -alpha
 
     dic = {}
-    # nbData = (2*alpha+1)*sum(ldb.nbChiffre)
-    nbData = (2 * alpha + 1) * len(database)
-
-    dic["data"] = np.zeros((nbData, 784), dtype='uint8')
-    dic["derivation"] = np.zeros((nbData, 784), dtype='uint8')
-    dic["label"] = np.zeros(nbData, dtype='uint8')
-    i = 0
+    nbData = len(database)
+    dic["derivation"] = np.zeros((nbData, 784))
+    i=0
     for image in database:
-        for alp in range(-alpha, alpha + 1):
-            img, T = translate(ldb.getData(image), alp)
-            dic["data"][i] = img
-            dic["derivation"][i] = T
-            dic["label"][i] = ldb.getLabel(image)
-            i += 1
-
-    dic["data"] = dic["data"].T
-    savemat(translate.__name__, dic)
+        data = ldb.getData(image)
+        df_pos = translate(data,1) #s(image,1)
+        df_neg = translate(data,-1) #s(image,-1)
+        deriv = (df_pos-df_neg)/2 #s(image,1)-s(image,-1) approsximation de la dérivée de s au point (image,0)
+        dic["derivation"][i] = deriv
+        i+=1
+    savemat(translate.__name__, dic,do_compression=True)
 
 
 def translateX(image, alphaX):
@@ -48,8 +40,7 @@ def translateX(image, alphaX):
         alphaX = -alphaX
         imageTranslated[:, alphaX:image.shape[1]] = image[:, 0:(image.shape[1] - alphaX)]
         imageTranslated = np.flip(imageTranslated, (0, 1))
-    T = (imageTranslated - image) / alphaX
-    return imageTranslated.reshape(784), T.reshape(784)
+    return imageTranslated.reshape(784)
 
 
 def translateY(image, alphaY):
@@ -66,8 +57,7 @@ def translateY(image, alphaY):
         alphaY = -alphaY
         imageTranslated[alphaY:image.shape[1], :] = image[0:(image.shape[1] - alphaY), :]
         imageTranslated = np.flip(imageTranslated, (0, 1))
-    T = (imageTranslated - image) / alphaY
-    return imageTranslated.reshape(784), T.reshape(784)
+    return imageTranslated.reshape(784)
 
 
 def TangenteDistance(p, e, Tp, Te):
@@ -78,8 +68,8 @@ def TangenteDistance(p, e, Tp, Te):
     Sortie: d: la distance tangente de p et e
     """
     A = np.ones((1, 2 * 784))
-    A[:, 0:Tp.shape[1]] = -1 * Tp[:, :]
-    A[:, Tp.shape[1]:2 * Tp.shape[1]] = Te[:, :]  # A = (-Tp Te)
+    A[:,0:784] = -1 * Tp[:]
+    A[:,785:2*784-1] = Te[:]  # A = (-Tp Te)
     Q, R = qr(A)  # decomposition QR de A
     Q2 = Q[:, R.shape[0] - 1:Q.shape[1]]
     b = p - e
@@ -89,6 +79,10 @@ def TangenteDistance(p, e, Tp, Te):
 
 Training, Test = ldb.seperateData()
 alpha = 4
+translationDB(Training,translateX)
+#ldb.resetDataBase("translateX.mat")
+derivs = ldb.getDerivationDB("translateX.mat")
+print(derivs[0])
 # M = ldb.getData(10)
 # trX = translateX(M,5)
 # trY = translateY(M,5)
