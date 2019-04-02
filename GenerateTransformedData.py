@@ -7,16 +7,16 @@ import matplotlib.pyplot as plt
 from random import randint
 
 
-def translationDB(database, translate):
+def translationDB(translate):
     """
-    Fonction : calcul la derive de la translation translate pour chaque image dans database et stock le resultat  dans translate.mat
+    Fonction : calcul la derive de la translation translate pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
     """
 
     dic = {}
-    nbData = len(database)
+    nbData = 70000
     dic["derivation"] = np.zeros((nbData, 784))
     i=0
-    for image in database:
+    for image in range(nbData):
         data = ldb.getData(image)
         df_pos = translate(data,1) #s(image,1)
         df_neg = translate(data,-1) #s(image,-1)
@@ -79,7 +79,7 @@ def TangenteDistance(p, e, Tp, Te):
 
 Training, Test = ldb.seperateData()
 alpha = 4
-translationDB(Training,translateX)
+translationDB(translateX)
 #ldb.resetDataBase("translateX.mat")
 derivs = ldb.getDerivationDB("translateX.mat")
 print(derivs[0])
