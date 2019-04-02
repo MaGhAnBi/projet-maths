@@ -9,11 +9,13 @@ mnist = loadmat("mnist-original.mat")
 mnist_data = mnist["data"].T
 mnist_label = mnist["label"][0]
 mnist_derivation = []
-print(len(mnist['label'][0]))
 nbChiffre = [6903, 7877, 6990, 7141, 6824, 6313, 6876, 7293, 6825, 6958]
 
 
 def resetDataBase(database_file_name):
+    """
+    remplace la BD initial par le DB database_file_name
+    """
     mnist = loadmat(database_file_name)
     mnist_data = mnist["data"].T
     mnist_label = mnist["label"][0]
