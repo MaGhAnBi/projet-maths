@@ -8,6 +8,7 @@ from PIL import Image
 mnist = loadmat("mnist-original.mat")
 mnist_data = mnist["data"].T
 mnist_label = mnist["label"][0]
+
 print(len(mnist['label'][0]))
 nbChiffre = [6903, 7877, 6990, 7141, 6824, 6313, 6876, 7293, 6825, 6958]
 
