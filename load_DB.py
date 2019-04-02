@@ -5,10 +5,13 @@ import numpy as np
 from PIL import Image
 
 # chargement de la base de donnée
+global mnist
 mnist = loadmat("mnist-original.mat")
+global mnist_data
 mnist_data = mnist["data"].T
+global mnist_label
 mnist_label = mnist["label"][0]
-
+global mnist_derivation
 mnist_derivation = []
 nbChiffre = [6903, 7877, 6990, 7141, 6824, 6313, 6876, 7293, 6825, 6958]
 
@@ -17,12 +20,14 @@ def resetDataBase(database_file_name):
     """
     remplace la BD initial par le DB database_file_name
     """
+    print("RESET DATA ...")
+
     mnist = loadmat(database_file_name)
     mnist_data = mnist["data"].T
     mnist_label = mnist["label"][0]
     global mnist_derivation
     mnist_derivation = mnist["derivation"].T
-    print(len(mnist_derivation))
+    print("FIN RESET DATA ...", str(len(mnist_derivation)))
 
 # retourne une liste d'indices de tous les chiffres n dans la bese de donnée mnist
 def findChiffre(n):
