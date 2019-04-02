@@ -67,14 +67,19 @@ def TangenteDistance(p, e, Tp, Te):
     Tp et Te ont la même dimension
     Sortie: d: la distance tangente de p et e
     """
-    A = np.ones((1, 2 * 784))
-    A[:,0:784] = -1 * Tp[:]
-    A[:,785:2*784-1] = Te[:]  # A = (-Tp Te)
-    Q, R = qr(A)  # decomposition QR de A
-    Q2 = Q[:, R.shape[0] - 1:Q.shape[1]]
+    lp,cp=Tp.shape
+    le,ce=Te.shape
+    A = np.zeros((lp,cp+ce))
+    A[:, 0:cp-1] = -1 * Tp[:, :]
+    A[:,cp:ce+cp] = Te[:, :]
+    Q, R = qr(A)  
+    lr,cr=R.shape
+    lq,cq=Q.shape
+    Q2 = Q[:,cr:cq]
     b = p - e
-    d = Q2.transpose() @ b
+    d = Q2.transpose()@b
     return np.linalg.norm(d)
+
 
 
 Training, Test = ldb.seperateData()
