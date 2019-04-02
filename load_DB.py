@@ -20,7 +20,9 @@ def resetDataBase(database_file_name):
     mnist = loadmat(database_file_name)
     mnist_data = mnist["data"].T
     mnist_label = mnist["label"][0]
-    mnist_derivation = mnist["derviation"].T
+    global mnist_derivation
+    mnist_derivation = mnist["derivation"].T
+    print(len(mnist_derivation))
 
 # retourne une liste d'indices de tous les chiffres n dans la bese de donnée mnist
 def findChiffre(n):
