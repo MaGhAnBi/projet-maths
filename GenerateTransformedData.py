@@ -89,7 +89,6 @@ def TangenteDistance(p, e, Tp, Te):
 
 Training, Test = ldb.seperateData()
 alpha = 4
-translationDB(Training, alpha, translateX)
 # M = ldb.getData(10)
 # trX = translateX(M,5)
 # trY = translateY(M,5)
