@@ -49,6 +49,7 @@ def classificationChebyshev(indice):
     return index
 """
 """
+
 def classificationMinkowski(indice):
     M=ldb.getData(indice)
     minimum=np.inf
@@ -115,6 +116,24 @@ def K_most_confused(matrice, K=5):
         liste.append(np.append(np.flip(position, 0), matrice[position]).tolist())
         matrice[position] = -1
     return liste
+
+def p_root(value, p_value): 
+    root_value = 1 / float(p_value) 
+    return round (Decimal(value)**Decimal(root_value), 3) 
+    
+def classificationNormeP(indice):
+    p_value=1.5
+    x=ldb.getData(indice)
+    mini=np.inf
+    index=0
+    for i in range(10):
+        y=DATA.matrice_moyenne[i]
+        d=p_root(sum(pow(abs(a-b), p_value) 
+            for a, b in zip(x,y)), p_value)
+        if d<mini:
+            index=i
+            mini=d
+    return index
 
 k = 2
 #M = generateSVD.init_bases_SVD(k)
