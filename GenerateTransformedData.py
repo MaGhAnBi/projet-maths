@@ -70,9 +70,11 @@ def TangenteDistance(p, e, Tp, Te):
     lp,cp=Tp.shape
     le,ce=Te.shape
     A = np.zeros((lp,cp+ce))
-    A[:, 0:cp-1] = -1 * Tp[:, :]
+    A[:, 0:cp] = -1 * Tp[:, :]
     A[:,cp:ce+cp] = Te[:, :]
-    Q, R = qr(A)  
+    Q, R = qr(A)
+    print(Q)
+    print(R)
     lr,cr=R.shape
     lq,cq=Q.shape
     Q2 = Q[:,cr:cq]
@@ -84,10 +86,14 @@ def TangenteDistance(p, e, Tp, Te):
 
 Training, Test = ldb.seperateData()
 alpha = 4
-translationDB(translateX)
+#translationDB(translateX)
 #ldb.resetDataBase("translateX.mat")
 derivs = ldb.getDerivationDB("translateX.mat")
-print(derivs[0])
+p = ldb.getData(15)
+tp = np.array([derivs[15]])
+e = ldb.getData(20)
+te = np.array([derivs[20]])
+print(TangenteDistance(p,e,tp,te))
 # M = ldb.getData(10)
 # trX = translateX(M,5)
 # trY = translateY(M,5)
