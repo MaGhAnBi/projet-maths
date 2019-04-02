@@ -4,7 +4,7 @@ import numpy as np
 import SVD
 import generateSVD
 from scipy.spatial import distance
-import GenerateTranformedData as generateT
+import GenerateTransformedData as generateT
 
 
 def classificationTangeante(indice,db):
@@ -21,7 +21,7 @@ def classificationTangeante(indice,db):
          if d<mini:
              index=i
              mini=d
-    return ldb.getLabel(db[index])
+     return ldb.getLabel(db[index])
          
 def classificationMoyenne(indice):
     M = ldb.getData(indice)
@@ -117,7 +117,7 @@ def K_most_confused(matrice, K=5):
     return liste
 
 k = 2
-M = generateSVD.init_bases_SVD(k)
+#M = generateSVD.init_bases_SVD(k)
 
 def classificationSVD(indice):
     scores = [0.]*10
@@ -127,7 +127,7 @@ def classificationSVD(indice):
     return np.argmin(scores)
 
 
-def successRate( Test, algorithme):
+def successRate( Test, algorithme,Training):
     label = []
     matriceConfusion = np.zeros((10, 10), int)
     i = 0
@@ -137,7 +137,7 @@ def successRate( Test, algorithme):
 #        if i % 500 == 0:
 #            print((i/14000)*100, "%")
 #        i += 1
-        label.append(algorithme(e))
+        label.append(algorithme(e,Training))
     nbSuccess = 0
     for i in range(len(Test)):
         if label[i] == ldb.getLabel(Test[i]):
@@ -151,7 +151,9 @@ def successRate( Test, algorithme):
     return nbSuccess / N
 
 Training , Test = ldb.seperateData()
-
+Test_reduit= [Test[i] for i in range(10)]
+print(classificationTangeante(Test[0],Training),ldb.getLabel(Test[0]))
+#print("classification tangente: ",successRate(Test_reduit,classificationTangeante,Training))
 #print("Classification Moyenne :",successRate(Test,classificationMoyenne))
 #print("Classification Moyenne :",successRate(Test,classificationMinkowski))
 #
@@ -161,4 +163,4 @@ Training , Test = ldb.seperateData()
 
 # GENERATION DONNEES :
 
-print("Classification SVD :", successRate(Test,classificationSVD))
+#print("Classification SVD :", successRate(Test,classificationSVD))

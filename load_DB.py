@@ -3,7 +3,7 @@ from scipy.io import loadmat
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
-
+import random
 # chargement de la base de donnée
 global mnist
 mnist = loadmat("mnist-original.mat")
@@ -59,15 +59,12 @@ def getData(indice):
 
 
 # affiche le chiffre de l'indice donné
-def afficheChiffre(M):
-    img = np.array(M)
-
-    for i in range(len(img)):
-        img[i] = 255 - img[i]
-
-    img = img.reshape((28, 28))
-    affichage = Image.fromarray(img, 'L')
-    affichage.show()
+def afficheChiffre(indice):
+    plt.figure()
+    img = np.array(getData(indice))
+    img = img.reshape((28,28)).transpose()
+    img = 255*np.ones(img.shape)-img
+    plt.imshow(img)
 
 
 # retourne le label du chiffre à l'indice donné
@@ -88,5 +85,6 @@ def seperateData(ratio=0.8):
                 Training.append(lst[n][i])
             else:
                 Test.append(lst[n][i])
-    return Training, Test
+    Test = random.sample(Test,len(Test))
+    return Training,Test
 
