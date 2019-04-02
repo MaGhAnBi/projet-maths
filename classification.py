@@ -4,21 +4,21 @@ import numpy as np
 import SVD
 import generateSVD
 from scipy.spatial import distance
-import GenerateTranformedData as generateT
+import GenerateTransformedData as generateT
 
 def classificationTangeante(indice):
     
-     p=ldb.getData(indice)
-     mini=np.inf
-     derivs = ldb.getDerivationDB("translateX.mat")
-     tp = np.array([derivs[indice]]).transpose()
-     for i in range(60000):
-         e = ldb.getData(i)
-         te = np.array([derivs[i]]).transpose()
-         d=generateT.TangenteDistance(p,e,tp,te)
-         if d<mini:
-             index=i
-             mini=d
+    p=ldb.getData(indice)
+    mini=np.inf
+    derivs = ldb.getDerivationDB("translateX.mat")
+    tp = np.array([derivs[indice]]).transpose()
+    for i in range(60000):
+        e = ldb.getData(i)
+        te = np.array([derivs[i]]).transpose()
+        d=generateT.TangenteDistance(p,e,tp,te)
+        if d<mini:
+            index=i
+            mini=d
     return index
          
          
@@ -149,7 +149,7 @@ def successRate( Test, algorithme):
     print("Confusions [ a , b , n ] : ", K_most_confused(matriceConfusion))
     return nbSuccess / N
 
-Training , Test = ldb.seperateData()
+#Training , Test = ldb.seperateData()
 
 #print("Classification Moyenne :",successRate(Test,classificationMoyenne))
 #print("Classification Moyenne :",successRate(Test,classificationMinkowski))
@@ -160,4 +160,4 @@ Training , Test = ldb.seperateData()
 
 # GENERATION DONNEES :
 
-print("Classification SVD :", successRate(Test,classificationSVD))
+#print("Classification SVD :", successRate(Test,classificationSVD))

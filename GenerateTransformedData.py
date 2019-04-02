@@ -11,7 +11,6 @@ def translationDB(translate):
     """
     Fonction : calcul la derive de la translation translate pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
     """
-
     dic = {}
     nbData = 70000
     dic["derivation"] = np.zeros((nbData, 784))
@@ -81,11 +80,9 @@ def TangenteDistance(p, e, Tp, Te):
     return np.linalg.norm(d)
 
 
-
+"""
 Training, Test = ldb.seperateData()
 alpha = 4
-#translationDB(translateX)
-#ldb.resetDataBase("translateX.mat")
 derivs = ldb.getDerivationDB("translateX.mat")
 p = ldb.getData(15)
 tp = np.array([derivs[15]]).transpose()
@@ -95,14 +92,4 @@ print(TangenteDistance(p,e,tp,te))
 print(np.linalg.norm(e-p))
 ldb.afficheChiffre(ldb.getData(15))
 ldb.afficheChiffre(ldb.getData(20))
-# M = ldb.getData(10)
-# trX = translateX(M,5)
-# trY = translateY(M,5)
-##translation(trainingData,0)
-##img = translateX(M,1)
-# plt.imshow(M.reshape(28,28))
-# plt.show()
-# plt.imshow(trX)
-# plt.show()
-# plt.imshow(trY)
-# plt.show()
+"""
