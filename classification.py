@@ -194,7 +194,11 @@ def successRate( Test, algorithme,Training):
             matriceConfusion[ldb.getLabel(Test[i]), label[i]] += 1
             if matriceConfusion_score[ldb.getLabel(Test[i]), label[i]] < score[i] :
                 matriceConfusion_score[ldb.getLabel(Test[i]), label[i]] = score[i]
-                confused_positions [ldb.getLabel(Test[i]), label[i]] = [i,Test[i]]
+                print(i)
+                print(Test[i], label[i])
+                print(ldb.getLabel(Test[i]), label[i])
+
+                confused_positions[ldb.getLabel(Test[i]), label[i]] = [i, Test[i]]
             confusion+=1
     matriceConfusion =matriceConfusion/confusion
     print("Confusions [ a , b , n ] : ", K_most_confused(matriceConfusion,matriceConfusion_score))

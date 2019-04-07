@@ -94,7 +94,7 @@ def TangenteDistance(p, e, Tp, Te):
     return np.linalg.norm(d)
 
 
-translationY_DB()
+#translationY_DB()
 #Training, Test = ldb.seperateData()
 #alpha = 4
 ##ldb.resetDataBase("translateX.mat")
