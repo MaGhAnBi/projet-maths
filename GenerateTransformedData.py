@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.linalg import qr
+from scipy.linalg import qr,svd
 from scipy.io import savemat
 import load_DB as ldb
 import PIL
@@ -86,15 +86,25 @@ def TangenteDistance(p, e, Tp, Te):
     A[:, 0:cp] = -1 * Tp[:, :]
     A[:,cp:ce+cp] = Te[:, :]
     Q, R = qr(A)
+#    print(A.shape)
+    #U,S,V = svd(A)
+#    print(U)
+#    print(S)
+    #U2 = U[:,len(S):U.shape[0]]
+    
+    #print(Q.shape,"\n\n")
+#    #print(R.shape)
     lr,cr=R.shape
     lq,cq=Q.shape
     Q2 = Q[:,cr:cq]
     b = p - e
+    #b2 = b[len(S):U.shape[0]]
     d = Q2.transpose()@b
+    #d = U2.transpose()@b2
     return np.linalg.norm(d)
 
 
-translationY_DB()
+#translationX_DB()
 #Training, Test = ldb.seperateData()
 #alpha = 4
 ##ldb.resetDataBase("translateX.mat")
