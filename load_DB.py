@@ -19,13 +19,11 @@ def resetDataBase(database_file_name):
     remplace la BD initial par le DB database_file_name
     """
     print("RESET DATA ...")
-
+    global mnist_data
     mnist = loadmat(database_file_name)
     mnist_data = mnist["data"].T
+    global mnist_label
     mnist_label = mnist["label"][0]
-    global mnist_derivation
-    mnist_derivation = mnist["derivation"]
-    print("FIN RESET DATA ...", str(len(mnist_derivation)))
 
 def getDerivationDB(db):
     """

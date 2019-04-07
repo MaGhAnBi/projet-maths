@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.linalg import qr
+from scipy.linalg import qr, svd
 from scipy.io import savemat
 import load_DB as ldb
 import PIL
@@ -7,21 +7,39 @@ import matplotlib.pyplot as plt
 from random import randint
 from scipy.signal import convolve2d
 
-def translationX_DB():
+import generateSVD as ge
+
+def translationX_DB(nbData=70000,nom = ""):
     """
     Fonction : calcul la derive de la translation par rapport à x pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
     """
     dic = {}
-    nbData = 70000
     dic["derivation"] = np.zeros((nbData, 784))
-    i=0
-    Gx = np.array([[-1,0,1],[-2,0,2],[-1,0,1]])
+    i = 0
+    Gx = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
     for image in range(nbData):
         data = ldb.getData(image)
-        deriv = convolve2d(data.reshape((28,28)),Gx, mode='same')
+        deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
         dic["derivation"][i] = deriv.reshape(784)
-        i+=1
-    savemat("translateX", dic,do_compression=True)
+        i += 1
+    savemat("translateX"+nom, dic, do_compression=True)
+
+def SVD_DB(db,nbBases = 20):
+    """
+    Fonction : calcul la derive de la translation par rapport à x pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
+    """
+    dic = {}
+    nbData = len(db)
+    dic["data"] = np.zeros((784,10*nbBases))
+    dic["label"] = np.zeros(10*nbBases, dtype=int)
+    j = 0
+    for i in range (10):
+        U = ge.apply_svd(i, nbBases)
+        dic["label"][j:j+nbBases] = i
+        dic["data"][:,j:j+nbBases] = U[:,:]
+        j+=nbBases
+
+    savemat("mnist_SVD", dic, do_compression=True)
 
 def translationY_DB():
     """
@@ -30,15 +48,16 @@ def translationY_DB():
     dic = {}
     nbData = 70000
     dic["derivation"] = np.zeros((nbData, 784))
-    i=0
-    Gy = np.array([[-1,0,1],[-2,0,2],[-1,0,1]]).transpose()
+    i = 0
+    Gy = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]).transpose()
     for image in range(nbData):
         data = ldb.getData(image)
-        deriv = convolve2d(data.reshape((28,28)),Gy, mode='same')
+        deriv = convolve2d(data.reshape((28, 28)), Gy, mode='same')
         dic["derivation"][i] = deriv.reshape(784)
-        i+=1
-    savemat("translateY", dic,do_compression=True)
-    
+        i += 1
+    savemat("translateY", dic, do_compression=True)
+
+
 def translateX(image, alphaX):
     """
     translateX : (image : 1x784, alphaX : int  ) ==> imageTranslated, T:differentielle de l'operation
@@ -80,33 +99,42 @@ def TangenteDistance(p, e, Tp, Te):
     Tp et Te ont la même dimension
     Sortie: d: la distance tangente de p et e
     """
-    lp,cp=Tp.shape
-    le,ce=Te.shape
-    A = np.zeros((lp,cp+ce))
+    lp, cp = Tp.shape
+    le, ce = Te.shape
+    A = np.zeros((lp, cp + ce))
     A[:, 0:cp] = -1 * Tp[:, :]
-    A[:,cp:ce+cp] = Te[:, :]
+    A[:, cp:ce + cp] = Te[:, :]
     Q, R = qr(A)
-    lr,cr=R.shape
-    lq,cq=Q.shape
-    Q2 = Q[:,cr:cq]
+    #    print(A.shape)
+    # U,S,V = svd(A)
+    #    print(U)
+    #    print(S)
+    # U2 = U[:,len(S):U.shape[0]]
+
+    # print(Q.shape,"\n\n")
+    #    #print(R.shape)
+    lr, cr = R.shape
+    lq, cq = Q.shape
+    Q2 = Q[:, cr:cq]
     b = p - e
-    d = Q2.transpose()@b
+    # b2 = b[len(S):U.shape[0]]
+    d = Q2.transpose() @ b
+    # d = U2.transpose()@b2
     return np.linalg.norm(d)
 
-
-#translationY_DB()
-#Training, Test = ldb.seperateData()
-#alpha = 4
+# translationX_DB()
+# Training, Test = ldb.seperateData()
+# alpha = 4
 ##ldb.resetDataBase("translateX.mat")
-#derivs = ldb.getDerivationDB("translateX.mat")
-#p = ldb.getData(15)
-#tp = np.array([derivs[15]]).transpose()
-#e = ldb.getData(20)
-#te = np.array([derivs[20]]).transpose()
-#print(TangenteDistance(p,e,tp,te))
-#print(np.linalg.norm(e-p))
-#ldb.afficheChiffre(ldb.getData(15))
-#ldb.afficheChiffre(ldb.getData(20))
+# derivs = ldb.getDerivationDB("translateX.mat")
+# p = ldb.getData(15)
+# tp = np.array([derivs[15]]).transpose()
+# e = ldb.getData(20)
+# te = np.array([derivs[20]]).transpose()
+# print(TangenteDistance(p,e,tp,te))
+# print(np.linalg.norm(e-p))
+# ldb.afficheChiffre(ldb.getData(15))
+# ldb.afficheChiffre(ldb.getData(20))
 # M = ldb.getData(10)
 # trX = translateX(M,5)
 # trY = translateY(M,5)

@@ -6,20 +6,18 @@ import generateSVD
 from scipy.spatial import distance
 import GenerateTransformedData as generateT
 
+def classificationTangeante(indice,testdb,db,derivsTest,derivsTraining):
+    p=testdb[indice]
+    tp = np.array([derivsTest[indice]]).transpose()
+    lst = []
+    count = 0
+    for e in db:
+        count+=1
+        te = np.array([derivsTraining[e]]).transpose()
+        lst.append(generateT.TangenteDistance(p,ldb.getData(e),tp,te))
 
-def classificationTangeante(indice,db):
-    print("Debut distance tangente")
-    p=ldb.getData(indice)
-    mini=np.inf
-    derivs = ldb.getDerivationDB("translateX.mat")
-    tp = np.array([derivs[indice]]).transpose()
-    for i in range(len(db)):
-        e = ldb.getData(db[i])
-        te = np.array([derivs[db[i]]]).transpose()
-        d=generateT.TangenteDistance(p,e,tp,te)
-        if d<mini:
-            index=i
-            mini=d
+   # print(generateT.TangenteDistance(p,ldb.getData(db[0]),tp,np.array([Te[db[0]]])))
+    index = np.argmin(lst)
     return ldb.getLabel(db[index])
 
 
@@ -91,7 +89,6 @@ def classificationCorrelation(indice):
             minimum=d
     return index, minimum
 """
-
 """
 def classificationManhattan(indice):
     M=ldb.getData(indice)
@@ -137,9 +134,9 @@ def K_most_confused(matrice,matriceConfusion_score, K=5):
     return liste
 
 
-def p_root(value, p_value): 
-    root_value = 1 / float(p_value) 
-    return round (Decimal(value)**Decimal(root_value), 3) 
+def p_root(value, p_value):
+    root_value = 1 / float(p_value)
+    return round (Decimal(value)**Decimal(root_value), 3)
 
 
 def classificationNormeP(indice):
@@ -149,7 +146,7 @@ def classificationNormeP(indice):
     index=0
     for i in range(10):
         y=DATA.matrice_moyenne[i]
-        d=p_root(sum(pow(abs(a-b), p_value) 
+        d=p_root(sum(pow(abs(a-b), p_value)
             for a, b in zip(x,y)), p_value)
         if d<mini:
             index=i
@@ -167,47 +164,21 @@ def classificationSVD(indice):
     return np.argmin(scores), scores[np.argmin(scores)]
 
 
-def successRate( Test, algorithme,Training):
-    label = []
-    score = []
-    matriceConfusion = np.zeros((10, 10), int)
-    matriceConfusion_score = np.zeros((10, 10), int)
-
-    N = len(Test)
-
-    confused_positions = [[None]*N]*10
-
-
-    confusion = 0
-    for e in Test:
-#        if i % 500 == 0:
-#            print((i/14000)*100, "%")
-#        i += 1
-        label_e , score_e = algorithme(e)
-        label.append(label_e)
-        score.append(score_e)
+def successRate( Test,Training):
     nbSuccess = 0
-    for i in range(len(Test)):
-        if label[i] == ldb.getLabel(Test[i]):
-            nbSuccess += 1
-        else:
-            matriceConfusion[ldb.getLabel(Test[i]), label[i]] += 1
-            if matriceConfusion_score[ldb.getLabel(Test[i]), label[i]] < score[i] :
-                matriceConfusion_score[ldb.getLabel(Test[i]), label[i]] = score[i]
-                print(i)
-                print(Test[i], label[i])
-                print(ldb.getLabel(Test[i]), label[i])
-
-                confused_positions[ldb.getLabel(Test[i]), label[i]] = [i, Test[i]]
-            confusion+=1
-    matriceConfusion =matriceConfusion/confusion
-    print("Confusions [ a , b , n ] : ", K_most_confused(matriceConfusion,matriceConfusion_score))
+    N = len(Test)
+    derivs = ldb.getDerivationDB("translateX.mat")
+    derivs = np.array(derivs)
+    for e in Test:
+        label_e  = classificationTangeante(e,Training,derivs)
+        if label_e==ldb.getLabel(e):
+            nbSuccess+=1
     return nbSuccess / N
 
 
 #Training , Test = ldb.seperateData()
-#Test_reduit= [Test[i] for i in range(10)]
-#print(classificationTangeante(Test[0],Training),ldb.getLabel(Test[0]))
+#derivs = ldb.getDerivationDB("translateX.mat")
+#print(ldb.getLabel(classificationTangeante(Test[0],Training,derivs)),ldb.getLabel(Test[0]))
 ##print("classification tangente: ",successRate(Test_reduit,classificationTangeante,Training))
 #print("Classification Moyenne :",successRate(Test,classificationMoyenne))
 #print("Classification Moyenne :",successRate(Test,classificationMinkowski))
