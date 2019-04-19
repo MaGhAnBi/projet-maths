@@ -8,7 +8,7 @@ import GenerateTransformedData as generateT
 import matplotlib.pyplot as plt
 from  scipy.ndimage.filters import gaussian_filter
 
-sigma = 0.5
+sigma = 5
 DerivsX_moyenne = np.array([gaussian_filter(np.array(DATA.matrice_moyenne[i]).reshape(28,28),(sigma,0)) for i in range(10)])
 DerivsY_moyenne = np.array([gaussian_filter(np.array(DATA.matrice_moyenne[i]).reshape(28,28),(0,sigma)) for i in range(10)])
 DerivsX_moyenne = np.array([DerivsX_moyenne[i].reshape(784) for i in range(len(DerivsX_moyenne))])
@@ -232,7 +232,7 @@ def successRate(algo,Test):
 Training , Test = ldb.seperateData()
 lim = 1000
 Test_reduced = [Test[i] for i in range(lim)]
-print(successRate(classificationTangeanteXY,Test))
+print(successRate(classificationTangeanteX,Test_reduced))
 #derivs = ldb.getDerivationDB("translateX.mat")
 #print(ldb.getLabel(classificationTangeante(Test[0],Training,derivs)),ldb.getLabel(Test[0]))
 ##print("classification tangente: ",successRate(Test_reduit,classificationTangeante,Training))

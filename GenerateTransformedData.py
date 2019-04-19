@@ -9,7 +9,7 @@ from scipy.signal import convolve2d
 from  scipy.ndimage.filters import gaussian_filter
 import generateSVD as ge
 
-def translationX_DB(nbData=70000,nom = ""):
+def translationX_DB(nbData=70000,nom = "",sigma = 9):
     """
     Fonction : calcul la derive de la translation par rapport à x pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
     """
@@ -22,7 +22,7 @@ def translationX_DB(nbData=70000,nom = ""):
         #plt.figure()
         #plt.imshow(data.reshape((28,28)),cmap='gray')
         #plt.show()
-        sigma = 0.5
+        sigma = 5
         deriv = gaussian_filter(data,(sigma,0) );
         
         #deriv = (deriv-data)/sigma
@@ -31,7 +31,7 @@ def translationX_DB(nbData=70000,nom = ""):
         i+=1
     savemat("translateX"+nom, dic, do_compression=True)
 
-def translationY_DB(nbData=70000,nom = ""):
+def translationY_DB(nbData=70000,nom = "",sigma = 9):
     """
     Fonction : calcul la derive de la translation par rapport à x pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
     """
@@ -44,7 +44,6 @@ def translationY_DB(nbData=70000,nom = ""):
         #plt.figure()
         #plt.imshow(data.reshape((28,28)),cmap='gray')
         #plt.show()
-        sigma = 0.5
         deriv = gaussian_filter(data,(0,sigma) );
 
         #deriv = (deriv-data)/sigma
@@ -53,6 +52,26 @@ def translationY_DB(nbData=70000,nom = ""):
         i+=1
     savemat("translateY"+nom, dic, do_compression=True)
 
+def derivRotation(data,sigma = 9):
+    px = gaussian_filter(data,(sigma,0) )
+    py = gaussian_filter(data,(0,sigma) )
+    pr = np.zeros(data.shape)
+    
+    for x in range(28):
+        for y in range(28):
+            pr[x,y] = y*px[x,y]-x*py[x,y]
+    return pr
+
+def Rotation_DB(nbData=70000,nom="",sigma=9):
+    dic = {}
+    dic["rotation"] = np.zeros((nbData, 784))
+    i=0
+    for image in range(nbData):
+        data = ldb.getData(image).reshape((28,28))
+        rot=derivRotation(data,sigma)
+        dic["rotation"][i]=rot.reshape(784)
+        i+=1
+    savemat("Rotation"+nom,dic,do_compression=True)
 
 def SVD_DB(db,nbBases = 14):
     """
@@ -132,6 +151,8 @@ def TangenteDistance(p, e, Tp, Te):
 
     return np.linalg.norm(d)
 
+#Rotation_DB()
+#translationX_DB()
 #translationY_DB()
 # Training, Test = ldb.seperateData()
 # alpha = 4
