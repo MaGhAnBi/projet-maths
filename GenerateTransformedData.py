@@ -15,7 +15,6 @@ def translationX_DB(nbData=70000,nom = ""):
     """
     dic = {}
     dic["derivation"] = np.zeros((nbData, 784))
-    i = 0
     Gx = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
     for image in range(nbData):
         data = ldb.getData(image).reshape((28,28))
@@ -23,14 +22,36 @@ def translationX_DB(nbData=70000,nom = ""):
         #plt.figure()
         #plt.imshow(data.reshape((28,28)),cmap='gray')
         #plt.show()
-        sigma = 1.5
+        sigma = 1.
         deriv = gaussian_filter(data,(sigma,0) );
+
+        #deriv = (deriv-data)/sigma
+        #deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
+        dic["derivation"][i] = deriv.reshape(784)
+    savemat("translateX"+nom, dic, do_compression=True)
+
+def translationY_DB(nbData=70000,nom = ""):
+    """
+    Fonction : calcul la derive de la translation par rapport à x pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
+    """
+    dic = {}
+    dic["derivation"] = np.zeros((nbData, 784))
+    i = 0
+    for image in range(nbData):
+        data = ldb.getData(image).reshape((28,28))
+        #plt.imshow(data.reshape((28, 28)))
+        #plt.figure()
+        #plt.imshow(data.reshape((28,28)),cmap='gray')
+        #plt.show()
+        sigma = 1.
+        deriv = gaussian_filter(data,(0,sigma) );
 
         #deriv = (deriv-data)/sigma
         #deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
         dic["derivation"][i] = deriv.reshape(784)
         i += 1
     savemat("translateX"+nom, dic, do_compression=True)
+
 
 def SVD_DB(db,nbBases = 14):
     """
