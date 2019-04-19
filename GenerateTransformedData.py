@@ -44,7 +44,7 @@ def translationY_DB(nbData=70000,nom = ""):
         #plt.figure()
         #plt.imshow(data.reshape((28,28)),cmap='gray')
         #plt.show()
-        sigma = 1.
+        sigma = 0.5
         deriv = gaussian_filter(data,(0,sigma) );
 
         #deriv = (deriv-data)/sigma
@@ -132,7 +132,7 @@ def TangenteDistance(p, e, Tp, Te):
 
     return np.linalg.norm(d)
 
-#translationX_DB()
+#translationY_DB()
 # Training, Test = ldb.seperateData()
 # alpha = 4
 ##ldb.resetDataBase("translateX.mat")

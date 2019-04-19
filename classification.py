@@ -9,9 +9,10 @@ import matplotlib.pyplot as plt
 from  scipy.ndimage.filters import gaussian_filter
 
 sigma = 0.5
-DerivsX_moyenne = [gaussian_filter(np.array(DATA.matrice_moyenne[i]).reshape(28,28),(sigma,0)) for i in range(10)]
-DerivsY_moyenne = [gaussian_filter(np.array(DATA.matrice_moyenne[i]).reshape(28,28),(0,sigma)) for i in range(10)]
-
+DerivsX_moyenne = np.array([gaussian_filter(np.array(DATA.matrice_moyenne[i]).reshape(28,28),(sigma,0)) for i in range(10)])
+DerivsY_moyenne = np.array([gaussian_filter(np.array(DATA.matrice_moyenne[i]).reshape(28,28),(0,sigma)) for i in range(10)])
+DerivsX_moyenne = np.array([DerivsX_moyenne[i].reshape(784) for i in range(len(DerivsX_moyenne))])
+DerivsY_moyenne = np.array([DerivsY_moyenne[i].reshape(784) for i in range(len(DerivsY_moyenne))])
 def classificationTangeante(indice,testdb,trainingDb,derivsTest,derivsTraining,realLabel, log = False):
     p = testdb[indice]
     tp = np.array([derivsTest[indice]]).transpose()
@@ -85,8 +86,7 @@ def classificationTangeanteXY(indice):
     tp = np.array([derivsX[indice],derivsY[indice]]).transpose()
     for i in range(10):
         e = DATA.matrice_moyenne[i]
-        te = np.array([DerivsX_moyenne[i],DerivsY_moyenne[i]]).reshape(784)
-        te = np.array([te]).transpose()
+        te = np.array([DerivsX_moyenne[i],DerivsY_moyenne[i]]).transpose()
         d=generateT.TangenteDistance(p,e,tp,te)
         if d < mini:
             index=i
@@ -232,7 +232,7 @@ def successRate(algo,Test):
 Training , Test = ldb.seperateData()
 lim = 1000
 Test_reduced = [Test[i] for i in range(lim)]
-print(successRate(classificationTangeanteX,Test_reduced))
+print(successRate(classificationTangeanteXY,Test))
 #derivs = ldb.getDerivationDB("translateX.mat")
 #print(ldb.getLabel(classificationTangeante(Test[0],Training,derivs)),ldb.getLabel(Test[0]))
 ##print("classification tangente: ",successRate(Test_reduit,classificationTangeante,Training))
