@@ -6,7 +6,9 @@ import generateSVD
 from scipy.spatial import distance
 import GenerateTransformedData as generateT
 import matplotlib.pyplot as plt
+from  scipy.ndimage.filters import gaussian_filter
 
+DerivsX_moyenne = [gaussian_filter(np.array(DATA.matrice_moyenne[i]).reshape(28,28),(1.5,0)) for i in range(10)]
 
 def classificationTangeante(indice,testdb,trainingDb,derivsTest,derivsTraining,realLabel, log = False):
     p = testdb[indice]
@@ -41,14 +43,29 @@ def classificationTangeante(indice,testdb,trainingDb,derivsTest,derivsTraining,r
     #print(index)
     return ldb.getLabel(trainingDb[index])
 
+def classificationTangeantX(indice):
+
+    p=ldb.getData(indice)
+    mini=np.inf
+    derivs = ldb.getDerivationDB("translateX.mat")
+    tp = np.array([derivs[indice]]).transpose()
+    for i in range(10):
+        e = DATA.matrice_moyenne[i]
+        te = np.array(DerivsX_moyenne[i]).reshape(784)
+        te = np.array([te]).transpose()
+        d=generateT.TangenteDistance(p,e,tp,te)
+        if d < mini:
+            index=i
+            mini=d
+    return index
+
+
 def classificationTangeanteY(indice,db):
 
     p=ldb.getData(indice)
     mini=np.inf
-    print("Loading derivs")
     derivs = ldb.getDerivationDB("translateY.mat")
     tp = np.array([derivs[indice]]).transpose()
-    print("Derivs loaded")
     for i in range(min(10,len(db))):
         e = ldb.getData(db[i])
         te = np.array([derivs[db[i]]]).transpose()
@@ -184,22 +201,19 @@ def classificationSVD(indice):
     return np.argmin(scores), scores[np.argmin(scores)]
 
 
-def successRate( Test,Training):
+def successRate(algo,Test):
     nbSuccess = 0
     N = len(Test)
-    derivs = ldb.getDerivationDB("translateX.mat")
-    derivs = np.array(derivs)
     for e in Test:
-        label_e  = classificationTangeante(e,Training,derivs)
-        print(label_e)
-        print(ldb.getLabel(e))
+        label_e  = algo(e)
 
         if label_e==ldb.getLabel(e):
             nbSuccess+=1
     return nbSuccess / N
 
 
-#Training , Test = ldb.seperateData()
+Training , Test = ldb.seperateData()
+print(successRate(classificationTangeantX,Test))
 #derivs = ldb.getDerivationDB("translateX.mat")
 #print(ldb.getLabel(classificationTangeante(Test[0],Training,derivs)),ldb.getLabel(Test[0]))
 ##print("classification tangente: ",successRate(Test_reduit,classificationTangeante,Training))

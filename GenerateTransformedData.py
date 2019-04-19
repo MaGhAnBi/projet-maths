@@ -18,13 +18,13 @@ def translationX_DB(nbData=70000,nom = ""):
     i = 0
     Gx = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
     for image in range(nbData):
-        data = ldb.getData(image)
+        data = ldb.getData(image).reshape((28,28))
         #plt.imshow(data.reshape((28, 28)))
         #plt.figure()
         #plt.imshow(data.reshape((28,28)),cmap='gray')
         #plt.show()
         sigma = 1.5
-        deriv = gaussian_filter(data,sigma) ;
+        deriv = gaussian_filter(data,(sigma,0) );
 
         #deriv = (deriv-data)/sigma
         #deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
@@ -127,7 +127,7 @@ def TangenteDistance(p, e, Tp, Te):
 
     return np.linalg.norm(d)
 
-# translationX_DB()
+#translationX_DB()
 # Training, Test = ldb.seperateData()
 # alpha = 4
 ##ldb.resetDataBase("translateX.mat")
