@@ -5,21 +5,41 @@ import SVD
 import generateSVD
 from scipy.spatial import distance
 import GenerateTransformedData as generateT
+import matplotlib.pyplot as plt
 
-def classificationTangeante(indice,testdb,db,derivsTest,derivsTraining):
-    p=testdb[indice]
+
+def classificationTangeante(indice,testdb,trainingDb,derivsTest,derivsTraining,realLabel, log = False):
+    p = testdb[indice]
     tp = np.array([derivsTest[indice]]).transpose()
     lst = []
-    count = 0
-    for e in db:
-        count+=1
+
+    for e in trainingDb:
         te = np.array([derivsTraining[e]]).transpose()
-        lst.append(generateT.TangenteDistance(p,ldb.getData(e),tp,te))
-
-   # print(generateT.TangenteDistance(p,ldb.getData(db[0]),tp,np.array([Te[db[0]]])))
+        me = ldb.getData(e)
+        lst.append(generateT.TangenteDistance(p,me,tp,te))
+        #lst.append(np.linalg.norm(p-me))
+    # print(generateT.TangenteDistance(p,ldb.getData(db[0]),tp,np.array([Te[db[0]]])))
     index = np.argmin(lst)
-    return ldb.getLabel(db[index])
 
+    if log and realLabel != ldb.getLabel(trainingDb[index]) :
+        print("Image reel")
+        plt.imshow(np.array(p.reshape((28, 28))), cmap='gray')
+        plt.figure()
+
+        print("Derivée de l'image  reel")
+        plt.imshow(np.array(tp.reshape((28, 28))), cmap='gray')
+        plt.figure()
+
+        print("Image qui approxime le mieux")
+        plt.imshow(np.array((ldb.getData(trainingDb[index])).reshape((28, 28))), cmap = 'gray')
+        plt.figure()
+
+        print("Derivée de l'image qui approxime le mieux")
+        plt.imshow(np.array([derivsTraining[trainingDb[index]]]).reshape((28, 28)), cmap = 'gray')
+        plt.figure()
+
+    #print(index)
+    return ldb.getLabel(trainingDb[index])
 
 def classificationTangeanteY(indice,db):
 
@@ -171,6 +191,9 @@ def successRate( Test,Training):
     derivs = np.array(derivs)
     for e in Test:
         label_e  = classificationTangeante(e,Training,derivs)
+        print(label_e)
+        print(ldb.getLabel(e))
+
         if label_e==ldb.getLabel(e):
             nbSuccess+=1
     return nbSuccess / N

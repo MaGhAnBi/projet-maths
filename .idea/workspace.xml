@@ -7,8 +7,9 @@
       <change beforePath="$PROJECT_DIR$/GenerateTransformedData.py" beforeDir="false" afterPath="$PROJECT_DIR$/GenerateTransformedData.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Untitled.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Untitled.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/classification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/load_DB.py" beforeDir="false" afterPath="$PROJECT_DIR$/load_DB.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mnist-original.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generateSVD.py" beforeDir="false" afterPath="$PROJECT_DIR$/generateSVD.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mnist_SVD.mat" beforeDir="false" afterPath="$PROJECT_DIR$/mnist_SVD.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/translateXSVD.mat" beforeDir="false" afterPath="$PROJECT_DIR$/translateXSVD.mat" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,48 +20,12 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/classification.py">
+        <entry file="file://$USER_HOME$/Downloads/projet_bioInfo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="176" lean-forward="true" selection-start-line="176" selection-end-line="176" />
+            <state relative-caret-position="90">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
               <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/load_DB.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="21" column="20" selection-start-line="21" selection-end-line="22" />
-              <folding>
-                <element signature="e#24#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GenerateTransformedData.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="94" column="33" selection-start-line="94" selection-start-column="33" selection-end-line="94" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/generateSVD.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="31" column="33" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="33" />
-              <folding>
-                <element signature="e#24#36#0" expanded="true" />
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -89,11 +54,19 @@
       <find>init_bases_SVD</find>
       <find>estimProbas</find>
       <find>Test</find>
-      <find>translateX</find>
       <find>getder</find>
       <find>nbData</find>
       <find>sepa</find>
+      <find>SVD_DB</find>
+      <find>db</find>
+      <find>score</find>
+      <find>p</find>
+      <find>label</find>
       <find>deriva</find>
+      <find>translationX_DB</find>
+      <find>translateX</find>
+      <find>random</find>
+      <find>convol</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -106,15 +79,15 @@
         <option value="$PROJECT_DIR$/../Archives/3_03_2019/projet-maths/classification.py" />
         <option value="$PROJECT_DIR$/GenerateSVD2.py" />
         <option value="$PROJECT_DIR$/SVD.py" />
-        <option value="$PROJECT_DIR$/generateSVD.py" />
         <option value="$PROJECT_DIR$/DATA_SVD.py" />
         <option value="$PROJECT_DIR$/Transformations.py" />
         <option value="$USER_HOME$/Downloads/projet2-3i005-2019fev/projet.py" />
         <option value="$USER_HOME$/Downloads/cas avec me nddl.py" />
         <option value="$PROJECT_DIR$/translateXSVD.mat" />
         <option value="$PROJECT_DIR$/load_DB.py" />
-        <option value="$PROJECT_DIR$/GenerateTransformedData.py" />
+        <option value="$PROJECT_DIR$/generateSVD.py" />
         <option value="$PROJECT_DIR$/classification.py" />
+        <option value="$PROJECT_DIR$/GenerateTransformedData.py" />
       </list>
     </option>
   </component>
@@ -268,10 +241,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="35" y="23" width="1403" height="822" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.24457309" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.24457309" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" weight="0.32876712" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
@@ -279,7 +251,7 @@
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" weight="0.32876712" />
       <window_info anchor="bottom" id="Version Control" order="5" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.32876712" />
+      <window_info anchor="bottom" id="Run" order="6" weight="0.32876712" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -376,45 +348,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/generateSVD.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="31" column="33" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="33" />
-          <folding>
-            <element signature="e#24#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/translateXSVD.mat">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/mnist_SVD.mat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2185" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/load_DB.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="21" column="20" selection-start-line="21" selection-end-line="22" />
+        <state relative-caret-position="-50">
+          <caret line="8" column="36" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="36" />
           <folding>
             <element signature="e#24#52#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/classification.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generateSVD.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="13" />
+          <folding>
+            <element signature="e#24#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/GenerateTransformedData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="94" column="33" selection-start-line="94" selection-start-column="33" selection-end-line="94" selection-end-column="33" />
+        <state relative-caret-position="173">
+          <caret line="24" column="19" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classification.py">
+    <entry file="file://$USER_HOME$/Downloads/Projet3/Untitled1.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/projet_bioInfo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="176" lean-forward="true" selection-start-line="176" selection-end-line="176" />
+        <state relative-caret-position="90">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

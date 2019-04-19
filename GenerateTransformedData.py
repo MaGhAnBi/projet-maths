@@ -6,7 +6,7 @@ import PIL
 import matplotlib.pyplot as plt
 from random import randint
 from scipy.signal import convolve2d
-
+from  scipy.ndimage.filters import gaussian_filter
 import generateSVD as ge
 
 def translationX_DB(nbData=70000,nom = ""):
@@ -19,15 +19,24 @@ def translationX_DB(nbData=70000,nom = ""):
     Gx = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
     for image in range(nbData):
         data = ldb.getData(image)
-        deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
+        #plt.imshow(data.reshape((28, 28)))
+        #plt.figure()
+        #plt.imshow(data.reshape((28,28)),cmap='gray')
+        #plt.show()
+        sigma = 1.5
+        deriv = gaussian_filter(data,sigma) ;
+
+        #deriv = (deriv-data)/sigma
+        #deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
         dic["derivation"][i] = deriv.reshape(784)
         i += 1
     savemat("translateX"+nom, dic, do_compression=True)
 
-def SVD_DB(db,nbBases = 20):
+def SVD_DB(db,nbBases = 14):
     """
     Fonction : calcul la derive de la translation par rapport à x pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
     """
+
     dic = {}
     nbData = len(db)
     dic["data"] = np.zeros((784,10*nbBases))
@@ -40,6 +49,7 @@ def SVD_DB(db,nbBases = 20):
         j+=nbBases
 
     savemat("mnist_SVD", dic, do_compression=True)
+
 
 def translationY_DB():
     """
@@ -93,33 +103,28 @@ def translateY(image, alphaY):
 
 
 def TangenteDistance(p, e, Tp, Te):
+
     """
     Fonction calcul la distance tangente entre deux images p,e
     Entrées: p,e: deux images,  Tp: la matrice des transormations de p, Te: la matrice des transformations des e
     Tp et Te ont la même dimension
     Sortie: d: la distance tangente de p et e
     """
+
     lp, cp = Tp.shape
     le, ce = Te.shape
     A = np.zeros((lp, cp + ce))
     A[:, 0:cp] = -1 * Tp[:, :]
     A[:, cp:ce + cp] = Te[:, :]
     Q, R = qr(A)
-    #    print(A.shape)
-    # U,S,V = svd(A)
-    #    print(U)
-    #    print(S)
-    # U2 = U[:,len(S):U.shape[0]]
 
-    # print(Q.shape,"\n\n")
-    #    #print(R.shape)
     lr, cr = R.shape
     lq, cq = Q.shape
+
     Q2 = Q[:, cr:cq]
     b = p - e
-    # b2 = b[len(S):U.shape[0]]
-    d = Q2.transpose() @ b
-    # d = U2.transpose()@b2
+    d = Q2.transpose()@b
+
     return np.linalg.norm(d)
 
 # translationX_DB()

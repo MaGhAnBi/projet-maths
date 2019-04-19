@@ -27,8 +27,6 @@ def getAllTrainingDataOfLabel(label, ratio=0.8):
     return data.transpose()
 
 
-
-
 def apply_svd(label, basis_size):
     data = getAllTrainingDataOfLabel(label)
     data = np.array(data,dtype=np.float64)
