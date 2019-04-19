@@ -9,7 +9,7 @@ from scipy.signal import convolve2d
 from  scipy.ndimage.filters import gaussian_filter
 import generateSVD as ge
 
-def translationX_DB(nbData=70000,nom = "",sigma = 9):
+def translationX_DB(nbData=70000,nom = "",sigma = 9.):
     """
     Fonction : calcul la derive de la translation par rapport à x pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
     """
@@ -22,14 +22,28 @@ def translationX_DB(nbData=70000,nom = "",sigma = 9):
         #plt.figure()
         #plt.imshow(data.reshape((28,28)),cmap='gray')
         #plt.show()
-        sigma = 5
-        deriv = gaussian_filter(data,(sigma,0) );
         
+        #deriv = gaussian_filter(data,(sigma,0) );
+        deriv = deriv_translate_x(data,sigma)
         #deriv = (deriv-data)/sigma
         #deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
         dic["derivation"][i] = deriv.reshape(784)
         i+=1
     savemat("translateX"+nom, dic, do_compression=True)
+
+def deriv_translate_x(data,sigma = 9.):
+    #deriv = gaussian_filter(data,sigma);
+    #deriv = (deriv - data)
+    Gx = np.array([[-1,0,1],[-2,0,2],[-1,0,1]])
+    deriv = convolve2d(data, Gx, mode='same')
+    return deriv
+
+def deriv_translate_y(data,sigma = 9.):
+    #deriv = gaussian_filter(data,(0,sigma) );
+    #deriv = (deriv - data)
+    Gy = np.array([[-1,-2,-1],[0,0,0],[1,2,1]])
+    deriv = convolve2d(data, Gy, mode='same')
+    return deriv
 
 def translationY_DB(nbData=70000,nom = "",sigma = 9):
     """
@@ -44,7 +58,7 @@ def translationY_DB(nbData=70000,nom = "",sigma = 9):
         #plt.figure()
         #plt.imshow(data.reshape((28,28)),cmap='gray')
         #plt.show()
-        deriv = gaussian_filter(data,(0,sigma) );
+        deriv = deriv_translate_y(data,sigma)
 
         #deriv = (deriv-data)/sigma
         #deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
@@ -53,23 +67,23 @@ def translationY_DB(nbData=70000,nom = "",sigma = 9):
     savemat("translateY"+nom, dic, do_compression=True)
 
 def derivRotation(data,sigma = 9):
-    px = gaussian_filter(data,(sigma,0) )
-    py = gaussian_filter(data,(0,sigma) )
+    px = deriv_translate_x(data,sigma)
+    py = deriv_translate_y(data,sigma)
     pr = np.zeros(data.shape)
     
     for x in range(28):
         for y in range(28):
             pr[x,y] = y*px[x,y]-x*py[x,y]
-    return pr
+    return pr.reshape(784)
 
 def Rotation_DB(nbData=70000,nom="",sigma=9):
     dic = {}
-    dic["rotation"] = np.zeros((nbData, 784))
+    dic["derivation"] = np.zeros((nbData, 784))
     i=0
     for image in range(nbData):
         data = ldb.getData(image).reshape((28,28))
         rot=derivRotation(data,sigma)
-        dic["rotation"][i]=rot.reshape(784)
+        dic["derivation"][i]=rot
         i+=1
     savemat("Rotation"+nom,dic,do_compression=True)
 

@@ -8,11 +8,14 @@ import GenerateTransformedData as generateT
 import matplotlib.pyplot as plt
 from  scipy.ndimage.filters import gaussian_filter
 
-sigma = 5
-DerivsX_moyenne = np.array([gaussian_filter(np.array(DATA.matrice_moyenne[i]).reshape(28,28),(sigma,0)) for i in range(10)])
-DerivsY_moyenne = np.array([gaussian_filter(np.array(DATA.matrice_moyenne[i]).reshape(28,28),(0,sigma)) for i in range(10)])
+sigma = 9.
+DerivsX_moyenne = np.array([generateT.deriv_translate_x(np.array(DATA.matrice_moyenne[i]).reshape(28,28),sigma) for i in range(10)])
+DerivsY_moyenne = np.array([generateT.deriv_translate_y(np.array(DATA.matrice_moyenne[i]).reshape(28,28),sigma) for i in range(10)])
 DerivsX_moyenne = np.array([DerivsX_moyenne[i].reshape(784) for i in range(len(DerivsX_moyenne))])
 DerivsY_moyenne = np.array([DerivsY_moyenne[i].reshape(784) for i in range(len(DerivsY_moyenne))])
+DerivsR_moyenne = np.array([generateT.derivRotation( np.array( DATA.matrice_moyenne[i] ).reshape( (28,28)) ,sigma ) for i in range(10)])
+DerivsR_moyenne = np.array([DerivsR_moyenne[i].reshape(784) for i in range(len(DerivsR_moyenne))])
+
 def classificationTangeante(indice,testdb,trainingDb,derivsTest,derivsTraining,realLabel, log = False):
     p = testdb[indice]
     tp = np.array([derivsTest[indice]]).transpose()
@@ -78,7 +81,22 @@ def classificationTangeanteY(indice):
             index=i
             mini=d
     return index
+derivsR = ldb.getDerivationDB("Rotation.mat")
+def classificationTangeanteR(indice):
+    p=ldb.getData(indice)
+    mini=np.inf
     
+    tp = np.array([derivsR[indice]]).transpose()
+    for i in range(10):
+        e = DATA.matrice_moyenne[i]
+        te = np.array(DerivsR_moyenne[i]).reshape(784)
+        te = np.array([te]).transpose()
+        d=generateT.TangenteDistance(p,e,tp,te)
+        if d < mini:
+            index=i
+            mini=d
+    return index
+
 def classificationTangeanteXY(indice):
     p=ldb.getData(indice)
     mini=np.inf
@@ -87,6 +105,21 @@ def classificationTangeanteXY(indice):
     for i in range(10):
         e = DATA.matrice_moyenne[i]
         te = np.array([DerivsX_moyenne[i],DerivsY_moyenne[i]]).transpose()
+        d=generateT.TangenteDistance(p,e,tp,te)
+        if d < mini:
+            index=i
+            mini=d
+    return index
+
+derivsR = ldb.getDerivationDB("Rotation.mat")
+def classificationTangeanteXYR(indice):
+    p=ldb.getData(indice)
+    mini=np.inf
+    
+    tp = np.array([derivsX[indice],derivsY[indice],derivsR[indice]]).transpose()
+    for i in range(10):
+        e = DATA.matrice_moyenne[i]
+        te = np.array([DerivsX_moyenne[i],DerivsY_moyenne[i],DerivsR_moyenne[i]]).transpose()
         d=generateT.TangenteDistance(p,e,tp,te)
         if d < mini:
             index=i
@@ -232,7 +265,7 @@ def successRate(algo,Test):
 Training , Test = ldb.seperateData()
 lim = 1000
 Test_reduced = [Test[i] for i in range(lim)]
-print(successRate(classificationTangeanteX,Test_reduced))
+print(successRate(classificationTangeanteXYR,Test_reduced))
 #derivs = ldb.getDerivationDB("translateX.mat")
 #print(ldb.getLabel(classificationTangeante(Test[0],Training,derivs)),ldb.getLabel(Test[0]))
 ##print("classification tangente: ",successRate(Test_reduit,classificationTangeante,Training))
