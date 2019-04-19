@@ -15,19 +15,20 @@ def translationX_DB(nbData=70000,nom = ""):
     """
     dic = {}
     dic["derivation"] = np.zeros((nbData, 784))
-    Gx = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+    i=0
     for image in range(nbData):
         data = ldb.getData(image).reshape((28,28))
         #plt.imshow(data.reshape((28, 28)))
         #plt.figure()
         #plt.imshow(data.reshape((28,28)),cmap='gray')
         #plt.show()
-        sigma = 1.
+        sigma = 0.5
         deriv = gaussian_filter(data,(sigma,0) );
-
+        
         #deriv = (deriv-data)/sigma
         #deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
         dic["derivation"][i] = deriv.reshape(784)
+        i+=1
     savemat("translateX"+nom, dic, do_compression=True)
 
 def translationY_DB(nbData=70000,nom = ""):
@@ -36,7 +37,7 @@ def translationY_DB(nbData=70000,nom = ""):
     """
     dic = {}
     dic["derivation"] = np.zeros((nbData, 784))
-    i = 0
+    i=0
     for image in range(nbData):
         data = ldb.getData(image).reshape((28,28))
         #plt.imshow(data.reshape((28, 28)))
@@ -49,8 +50,8 @@ def translationY_DB(nbData=70000,nom = ""):
         #deriv = (deriv-data)/sigma
         #deriv = convolve2d(data.reshape((28, 28)), Gx, mode='same')
         dic["derivation"][i] = deriv.reshape(784)
-        i += 1
-    savemat("translateX"+nom, dic, do_compression=True)
+        i+=1
+    savemat("translateY"+nom, dic, do_compression=True)
 
 
 def SVD_DB(db,nbBases = 14):
@@ -70,23 +71,6 @@ def SVD_DB(db,nbBases = 14):
         j+=nbBases
 
     savemat("mnist_SVD", dic, do_compression=True)
-
-
-def translationY_DB():
-    """
-    Fonction : calcul la derive de la translation par rapport à y pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
-    """
-    dic = {}
-    nbData = 70000
-    dic["derivation"] = np.zeros((nbData, 784))
-    i = 0
-    Gy = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]).transpose()
-    for image in range(nbData):
-        data = ldb.getData(image)
-        deriv = convolve2d(data.reshape((28, 28)), Gy, mode='same')
-        dic["derivation"][i] = deriv.reshape(784)
-        i += 1
-    savemat("translateY", dic, do_compression=True)
 
 
 def translateX(image, alphaX):
