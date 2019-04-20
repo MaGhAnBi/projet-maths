@@ -45,6 +45,22 @@ def deriv_translate_y(data,sigma = 9.):
     deriv = convolve2d(data, Gy, mode='same')
     return deriv
 
+def computeTangeant_distance(indice,alpha):
+    p=np.array(DATA.matrice_moyenne[indice])
+    nbp=2*alpha+1
+    tp = np.array(DerivsX_moyenne[indice]).reshape(784)
+    tp = np.array([tp]).transpose()
+    val_alpha=np.linspace(-alpha, alpha+1,nbp,dtype=int)
+    for i in range(10):
+        distance=[]
+        for alpha in val_alpha:
+            data=translateX(p,alpha)
+            e=np.array(DATA.matrice_moyenne[i])
+            te = np.array(DerivsX_moyenne[i]).reshape(784)
+            te = np.array([te]).transpose()
+            distance.append(TangenteDistance(data,e,tp,te))
+        plt.plot(val_alpha,distance)
+
 def translationY_DB(nbData=70000,nom = "",sigma = 9):
     """
     Fonction : calcul la derive de la translation par rapport à x pour chaque image dans la BD mnist et stock le resultat  dans translate.mat
