@@ -86,6 +86,45 @@ def Rotation_DB(nbData=70000,nom="",sigma=9):
         dic["derivation"][i]=rot
         i+=1
     savemat("Rotation"+nom,dic,do_compression=True)
+    
+    
+def derivScale(data):
+    px = deriv_translate_x(data)
+    py = deriv_translate_y(data)
+    pr = np.zeros(data.shape)
+    for x in range(28):
+        for y in range(28):
+            pr[x,y] = x*px[x,y]+y*py[x,y]
+    return pr.reshape(784)
+
+def Scale_DB(nbData=70000,nom=""):
+    dic = {}
+    dic["derivation"] = np.zeros((nbData, 784))
+    i=0
+    for image in range(nbData):
+        data = ldb.getData(image).reshape((28,28))
+        scale=derivScale(data)
+        dic["derivation"][i]=scale
+        i+=1
+    savemat("Scale"+nom,dic,do_compression=True)
+
+
+def derivThickening(data):
+    px = deriv_translate_x(data)
+    py = deriv_translate_y(data)
+    pr = px*px+py*py
+    return pr.reshape(784)
+
+def Thickening_DB(nbData=70000,nom=""):
+    dic = {}
+    dic["derivation"] = np.zeros((nbData, 784))
+    i=0
+    for image in range(nbData):
+        data = ldb.getData(image).reshape((28,28))
+        thicken=derivThickening(data)
+        dic["derivation"][i]=thicken
+        i+=1
+    savemat("Thickening"+nom,dic,do_compression=True)
 
 def SVD_DB(db,nbBases = 14):
     """
@@ -165,6 +204,8 @@ def TangenteDistance(p, e, Tp, Te):
 
     return np.linalg.norm(d)
 
+#Thickening_DB()
+#Scale_DB()
 #Rotation_DB()
 #translationX_DB()
 #translationY_DB()

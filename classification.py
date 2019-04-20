@@ -15,6 +15,8 @@ DerivsX_moyenne = np.array([DerivsX_moyenne[i].reshape(784) for i in range(len(D
 DerivsY_moyenne = np.array([DerivsY_moyenne[i].reshape(784) for i in range(len(DerivsY_moyenne))])
 DerivsR_moyenne = np.array([generateT.derivRotation( np.array( DATA.matrice_moyenne[i] ).reshape( (28,28)) ,sigma ) for i in range(10)])
 DerivsR_moyenne = np.array([DerivsR_moyenne[i].reshape(784) for i in range(len(DerivsR_moyenne))])
+DerivsS_moyenne = np.array([generateT.derivScale(np.array(DATA.matrice_moyenne[i]).reshape(28,28)) for i in range(10)])
+DerivsT_moyenne = np.array([generateT.derivThickening(np.array(DATA.matrice_moyenne[i]).reshape(28,28)) for i in range(10)])
 
 def classificationTangeante(indice,testdb,trainingDb,derivsTest,derivsTraining,realLabel, log = False):
     p = testdb[indice]
@@ -97,6 +99,38 @@ def classificationTangeanteR(indice):
             mini=d
     return index
 
+derivsS = ldb.getDerivationDB("Scale.mat")
+def classificationTangeanteS(indice):
+    p=ldb.getData(indice)
+    mini=np.inf
+    
+    tp = np.array([derivsS[indice]]).transpose()
+    for i in range(10):
+        e = DATA.matrice_moyenne[i]
+        te = np.array(DerivsS_moyenne[i]).reshape(784)
+        te = np.array([te]).transpose()
+        d=generateT.TangenteDistance(p,e,tp,te)
+        if d < mini:
+            index=i
+            mini=d
+    return index
+
+derivsT = ldb.getDerivationDB("Thickening.mat")
+def classificationTangeanteT(indice):
+    p=ldb.getData(indice)
+    mini=np.inf
+    
+    tp = np.array([derivsT[indice]]).transpose()
+    for i in range(10):
+        e = DATA.matrice_moyenne[i]
+        te = np.array(DerivsT_moyenne[i]).reshape(784)
+        te = np.array([te]).transpose()
+        d=generateT.TangenteDistance(p,e,tp,te)
+        if d < mini:
+            index=i
+            mini=d
+    return index
+
 def classificationTangeanteXY(indice):
     p=ldb.getData(indice)
     mini=np.inf
@@ -105,6 +139,20 @@ def classificationTangeanteXY(indice):
     for i in range(10):
         e = DATA.matrice_moyenne[i]
         te = np.array([DerivsX_moyenne[i],DerivsY_moyenne[i]]).transpose()
+        d=generateT.TangenteDistance(p,e,tp,te)
+        if d < mini:
+            index=i
+            mini=d
+    return index
+
+def classificationTangeanteXYS(indice):
+    p=ldb.getData(indice)
+    mini=np.inf
+    
+    tp = np.array([derivsX[indice],derivsY[indice],derivsS[indice]]).transpose()
+    for i in range(10):
+        e = DATA.matrice_moyenne[i]
+        te = np.array([DerivsX_moyenne[i],DerivsY_moyenne[i],DerivsS_moyenne[i]]).transpose()
         d=generateT.TangenteDistance(p,e,tp,te)
         if d < mini:
             index=i
@@ -120,6 +168,34 @@ def classificationTangeanteXYR(indice):
     for i in range(10):
         e = DATA.matrice_moyenne[i]
         te = np.array([DerivsX_moyenne[i],DerivsY_moyenne[i],DerivsR_moyenne[i]]).transpose()
+        d=generateT.TangenteDistance(p,e,tp,te)
+        if d < mini:
+            index=i
+            mini=d
+    return index
+
+def classificationTangeanteXYRS(indice):
+    p=ldb.getData(indice)
+    mini=np.inf
+    
+    tp = np.array([derivsX[indice],derivsY[indice],derivsR[indice],derivsS[indice]]).transpose()
+    for i in range(10):
+        e = DATA.matrice_moyenne[i]
+        te = np.array([DerivsX_moyenne[i],DerivsY_moyenne[i],DerivsR_moyenne[i],DerivsS_moyenne[i]]).transpose()
+        d=generateT.TangenteDistance(p,e,tp,te)
+        if d < mini:
+            index=i
+            mini=d
+    return index
+
+def classificationTangeanteXYRST(indice):
+    p=ldb.getData(indice)
+    mini=np.inf
+    
+    tp = np.array([derivsX[indice],derivsY[indice],derivsR[indice],derivsS[indice],derivsT[indice]]).transpose()
+    for i in range(10):
+        e = DATA.matrice_moyenne[i]
+        te = np.array([DerivsX_moyenne[i],DerivsY_moyenne[i],DerivsR_moyenne[i],DerivsS_moyenne[i],DerivsT_moyenne[i]]).transpose()
         d=generateT.TangenteDistance(p,e,tp,te)
         if d < mini:
             index=i
@@ -265,7 +341,7 @@ def successRate(algo,Test):
 Training , Test = ldb.seperateData()
 lim = 1000
 Test_reduced = [Test[i] for i in range(lim)]
-print(successRate(classificationTangeanteXYR,Test_reduced))
+
 #derivs = ldb.getDerivationDB("translateX.mat")
 #print(ldb.getLabel(classificationTangeante(Test[0],Training,derivs)),ldb.getLabel(Test[0]))
 ##print("classification tangente: ",successRate(Test_reduit,classificationTangeante,Training))
