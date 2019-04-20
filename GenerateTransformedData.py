@@ -8,6 +8,10 @@ from random import randint
 from scipy.signal import convolve2d
 from  scipy.ndimage.filters import gaussian_filter
 import generateSVD as ge
+import DATA_matrice_moyenne as DATA
+
+DerivsX_moyenne = np.array([deriv_translate_x(np.array(DATA.matrice_moyenne[i]).reshape(28,28)) for i in range(10)])
+DerivsX_moyenne = np.array([DerivsX_moyenne[i].reshape(784) for i in range(len(DerivsX_moyenne))])
 
 def translationX_DB(nbData=70000,nom = "",sigma = 9.):
     """
@@ -220,6 +224,7 @@ def TangenteDistance(p, e, Tp, Te):
 
     return np.linalg.norm(d)
 
+computeTangeant_distance(3,3)
 #Thickening_DB()
 #Scale_DB()
 #Rotation_DB()
